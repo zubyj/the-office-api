@@ -1,13 +1,10 @@
 /*
 This is a helper function.
-
 It reads the complete office script and inserts each line into the database along with the speaker, season, and episode.
-
 */
 
-
 const fs = require('fs')
-const pool = require('./db');
+const pool = require('../db');
 
 
 const insertLines = async() => {
@@ -32,8 +29,6 @@ const insertLines = async() => {
             catch (err) {
                 console.log("Error parsing the json string", err)
             }
-            // console.log('File data ', jsonString)
-            // console.log(jsonString)
         });
     }
     catch (err) {
