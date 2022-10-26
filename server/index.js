@@ -35,45 +35,24 @@ app.get("/random", async(req, res) => {
 })
 
 // Asks a question to the show
-app.get("/ask", async (req, res) => {
-    let txt = 'Just put it out of your mind';
-    txt = txt.split(' ').join(' & ')
-    console.log(txt)
+// Tries full text search. If no results, uses trigrams which breaks string into subsets and finds best match
+app.get("/ask/:question", async (req, res) => {
+
+    const { question } = req.params;
+    const q = question.replace("-", "& ");
 
     try {
         const quote = await pool.query(
-            "SELECT line_id FROM lines WHERE ts @@ to_tsquery('english', $1)", [txt]
-        )
-        console.log(quote.rows[0])
-        var res_id = quote.rows[0]['line_id'] + 1
-
-        const response = await pool.query(
-            "SELECT line from lines WHERE line_id = $1", [res_id]
-        )
-        res.json(response.rows[0]);
-    }
-    catch(err) {
-        console.error(err);
-    }
-})
-
-// Asks a question to the show
-// Tries full text search. If no results, uses trigrams which breaks string into subsets and finds best match.
-app.get("/ask", async (req, res) => {
-    let txt = 'I declare bankruptcy';
-
-    try {
-        const quote = await pool.query(
-            "SELECT line_id FROM lines WHERE ts @@ plainto_tsquery($1) order by ts_rank(ts, plainto_tsquery($1))", [txt]
+            "SELECT line_id FROM lines WHERE ts @@ to_tsquery($1) order by ts_rank(ts, to_tsquery($1))", [q]
         )
 
         if (quote.rows.length == 0) {
-            console.log('its empty');
+            console.log("full text search doesn't work");
 
             try {
                 const line = await pool.query(
-//                    "SELECT line FROM lines WHERE levenshtein(line, $1) <= 1", [txt]
-                      "SELECT line_id, line FROM lines ORDER BY SIMILARITY(line, $1) DESC LIMIT 5", [txt]
+                // "SELECT line FROM lines WHERE levenshtein(line, $1) <= 1", [txt]
+                      "SELECT line_id, line FROM lines ORDER BY SIMILARITY(line, $1) DESC LIMIT 5", [q]
                 )
                 const lineID = line.rows[0]['line_id'] + 1;
                 const response = await pool.query(
@@ -88,7 +67,6 @@ app.get("/ask", async (req, res) => {
         }
 
         else {
-
             var res_id = quote.rows[0]['line_id'] + 1
             const response = await pool.query(
                 "SELECT line from lines WHERE line_id = $1", [res_id]
