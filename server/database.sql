@@ -23,3 +23,14 @@ FROM
 			FROM lines))
 LIMIT 1;
 
+
+/*
+
+*/
+ALTER TABLE lines ADD COLUMN ts tsvector GENERATED ALWAYS AS (to_tsvector('english', line)) STORED;
+
+
+/*
+
+*/
+CREATE EXTENSION fuzzystrmatch;
