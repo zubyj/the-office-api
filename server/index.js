@@ -34,20 +34,91 @@ app.get("/random", async(req, res) => {
     }
 })
 
-// Asks a question to the show
-// Tries full text search. If no results, uses trigrams which breaks string into subsets and finds best match
+
 app.get("/ask/:question", async (req, res) => {
+    const { question } = req.params;
+    var q = question.replaceAll("-", " & ");
+    q = q.replace("'", "").toLowerCase();
+    console.log(q);
+    try {
+        const line = await pool.query(
+             "SELECT line_id, line FROM lines WHERE ts_lines @@ to_tsquery('simple', $1) ORDER BY ts_rank(ts_lines, to_tsquery('simple', $1)) DESC LIMIT 10", [q]
+            )
+
+        if (line.rows.length == 0) {
+            console.log("full text search didnt work");
+            // Trigrams
+            try {
+                const line = await pool.query(
+                // "SELECT line FROM lines WHERE levenshtein(line, $1) <= 1", [txt]
+                      "SELECT line_id, line FROM lines ORDER BY SIMILARITY(line, $1) DESC LIMIT 5", [q]
+                )
+                const lineID = line.rows[0]['line_id'] + 1;
+                try {
+                    const response = await pool.query(
+                        "SELECT line from LINES WHERE line_id = $1", [lineID]
+                    )
+                    res.json(response.rows[0]);
+                } 
+                catch (err) {
+                    console.error(err);
+                }
+            } 
+            catch (err) {
+                console.error(err);
+            }           
+        }
+        else {
+            
+
+            res_id = line.rows[0]['line_id'] + 1
+        
+            try {
+                const line2 = await pool.query(
+                    "SELECT line FROM lines WHERE line_id = $1", [res_id]
+                )    
+                console.log('match : ' + line.rows[0]['line'] + ', res : ' + line2.rows[0]['line'])
+                res.json(line2.rows[0]);
+                return;
+            } 
+            catch (err) {
+                console.error(err);
+            }
+        }
+    } 
+    catch (err) {
+        console.error(err);
+    }
+})
+
+
+
+/*
+Returns a line from the script given input text. 
+Tries full text search. If no results, uses trigrams
+trigrams  breaks string into subsets and finds best match
+*/
+app.get("/oldask/:question", async (req, res) => {
 
     const { question } = req.params;
-    const q = question.replace("-", "& ");
+    const q = question.replaceAll("-", " ");
 
+    console.log(q);
     try {
+        // const quote = await pool.query(
+        //     "SELECT line, line_id FROM lines WHERE ts @@ plainto_tsquery($1) order by ts_rank(ts, plainto_tsquery($1))", [q]
+        // )
+
+        // console.log(quote.rows);
+
         const quote = await pool.query(
-            "SELECT line_id FROM lines WHERE ts @@ to_tsquery($1) order by ts_rank(ts, to_tsquery($1))", [q]
+            "SELECT line_id, line FROM lines WHERE ts @@ websearch_to_tsquery($1)", [q]
         )
 
+        console.log(quote.rows[0]);
+
         if (quote.rows.length == 0) {
-            console.log("full text search doesn't work");
+            console.log("full text search doesn't work on : " + q);
 
             try {
                 const line = await pool.query(
@@ -55,15 +126,19 @@ app.get("/ask/:question", async (req, res) => {
                       "SELECT line_id, line FROM lines ORDER BY SIMILARITY(line, $1) DESC LIMIT 5", [q]
                 )
                 const lineID = line.rows[0]['line_id'] + 1;
-                const response = await pool.query(
-                    "SELECT line from LINES WHERE line_id = $1", [lineID]
-                )
-                res.json(response.rows[0]);
+                try {
+                    const response = await pool.query(
+                        "SELECT line from LINES WHERE line_id = $1", [lineID]
+                    )
+                    res.json(response.rows[0]);
+                } 
+                catch (err) {
+                    console.error(err);
+                }
             } 
             catch (err) {
                 console.error(err);
             }
-
         }
 
         else {
@@ -73,13 +148,73 @@ app.get("/ask/:question", async (req, res) => {
             )
             res.json(response.rows[0]);
         }
-
     }
     catch(err) {
         console.error(err);
     }
-})
+});
 
+// BROKEN
+// Responds to user text with line from given character
+app.get("/characters/:character/ask/:question", async (req, res) => {
+
+    const { character, question } = req.params;
+    const q = question.replaceAll("-", " ");
+
+    var characterName = character.charAt(0).toUpperCase() + character.slice(1);
+
+    try {
+        const quote = await pool.query(
+            "SELECT line_id FROM lines WHERE ts @@ websearch_to_tsquery($1)", [q]
+        )
+
+        if (quote.rows.length == 0) {
+            console.log("full text search doesn't work");
+
+            try {
+                const line = await pool.query(
+                // "SELECT line FROM lines WHERE levenshtein(line, $1) <= 1", [txt]
+                "SELECT character, line_id, line FROM lines ORDER BY SIMILARITY(line, $1) DESC LIMIT 40 ", [q]
+                )
+
+                for (var i=0; i<line.rows.length; i++) {
+                    if (line.rows[i]['character'] = 'Michael') {
+                        res.json(line.rows[i])
+                        return
+                    }
+                }
+
+                const lineID = line.rows[0]['line_id'] + 1;
+                try {
+                    const response = await pool.query(
+                        "SELECT line from LINES WHERE line_id = $1", [lineID]
+                    )
+                    res.json(response.rows[0]);
+                } 
+                catch (err) {
+                    console.log('caught it')
+                    console.error(err);
+                }
+            } 
+            catch (err) {
+                console.log('trigrams failed');
+                console.error(err);
+            }
+        }
+
+        else {
+            var res_id = quote.rows[0]['line_id'] + 1
+            const response = await pool.query(
+                "SELECT line from lines WHERE line_id = $1", [res_id]
+            )
+            res.json(response.rows[0]);
+        }
+    }
+    catch(err) {
+        console.log('full text search failed')
+        console.error(err);
+    }
+});
 
 // Gets script for random episode from given season
 app.get("/seasons/:season/random", async (req, res) => {

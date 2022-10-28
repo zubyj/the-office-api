@@ -34,3 +34,10 @@ ALTER TABLE lines ADD COLUMN ts tsvector GENERATED ALWAYS AS (to_tsvector('engli
 
 */
 CREATE EXTENSION fuzzystrmatch;
+
+ALTER TABLE lines ADD COLUMN tslines tsvector GENERATED ALWAYS AS (to_tsvector('simple', line)) STORED;
+
+
+
+ALTER TABLE lines ADD COLUMN ts_lines tsvector GENERATED ALWAYS AS (to_tsvector('simple', replace(line, '''', ''))) STORED;
+
