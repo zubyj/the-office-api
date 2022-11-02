@@ -34,7 +34,7 @@ app.get("/random", async(req, res) => {
     }
 })
 
-// Get a response to user text.
+// Get a response given user text
 app.get("/ask/:question", async (req, res) => {
     const { question } = req.params;
     var q = question.replaceAll("-", " & ");
@@ -89,23 +89,23 @@ app.get("/ask/:question", async (req, res) => {
     }
 })
 
-// Ask a character 
+// Gets a line from character given user text
 app.get("/characters/:character/ask/:question", async (req, res) => {
     const { character, question } = req.params;
     var q = question.replaceAll("-", " & ");
     q.replace("'", "").toLowerCase();
     var characterName = character.charAt(0).toUpperCase() + character.slice(1).toLowerCase();
+    const tableName = characterName.charAt(0).toLowerCase() + characterName.slice(1) + 'responses';
     try {
-        const response = await pool.query(
-            "SELECT season, episode, character, response FROM michaelresponses WHERE ts_lines @@ to_tsquery('simple', $1) ORDER BY ts_rank(ts_lines, to_tsquery('simple', $1)) DESC LIMIT 100", [q]
-        )
+        var query = "SELECT season, episode, character, response FROM " + tableName + " WHERE ts_lines @@ to_tsquery('simple', $1) ORDER BY ts_rank(ts_lines, to_tsquery('simple', $1)) DESC LIMIT 100";
+        const response = await pool.query(query, [q]);
 
         if (response.rows.length == 0) {
             // Try trigrams if full-text search fails
+            console.log('Full text search doesnt work')
             try {
-                const line = await pool.query(
-                    "SELECT season, episode, character, response FROM michaelresponses ORDER BY SIMILARITY(line, $1) DESC LIMIT 5", [q]
-                )
+                var query = "SELECT season, episode, character, response FROM " +  tableName + " ORDER BY SIMILARITY(line, $1) DESC LIMIT 5"
+                const line = await pool.query(query, [q]);
                 res.json(line.rows[0]);
             }
             catch (err) {

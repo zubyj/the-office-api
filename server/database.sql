@@ -8,7 +8,6 @@ CREATE TABLE lines(
     episode integer NOT NULL
 );
 
-
 /* 
 read a random row from the table 
 https://tableplus.com/blog/2018/08/postgresql-how-to-quickly-select-a-random-row-from-a-table.html
@@ -21,7 +20,6 @@ FROM
 			COUNT(*)
 			FROM lines))
 LIMIT 1;
-
 
 /*
 Vectorizing the lines like this doesnt work well.
@@ -50,7 +48,12 @@ CREATE TABLE michaelResponses(
     response VARCHAR(1500)
 );
 
+-- Ran insert_characterlines.js with argument 'Michael' to fill up table
+
+/* Vectorized/ Normalized the data for fast search */
 ALTER TABLE michaelResponses ADD COLUMN ts_lines tsvector GENERATED ALWAYS AS (to_tsvector('simple', replace(line, '''', ''))) STORED;
+
+/* Repeat for each character that can respond to questions */
 
 CREATE TABLE dwightResponses(
     line_id SERIAL PRIMARY KEY,
@@ -61,7 +64,7 @@ CREATE TABLE dwightResponses(
     response VARCHAR(1500)
 );
 
-ALTER TABLE michaelResponses ADD COLUMN ts_lines tsvector GENERATED ALWAYS AS (to_tsvector('simple', replace(line, '''', ''))) STORED;
+ALTER TABLE dwightResponses ADD COLUMN ts_lines tsvector GENERATED ALWAYS AS (to_tsvector('simple', replace(line, '''', ''))) STORED;
 
 CREATE TABLE jimResponses(
     line_id SERIAL PRIMARY KEY,
@@ -72,3 +75,26 @@ CREATE TABLE jimResponses(
     response VARCHAR(1500)
 );
 
+ALTER TABLE jimResponses ADD COLUMN ts_lines tsvector GENERATED ALWAYS AS (to_tsvector('simple', replace(line, '''', ''))) STORED;
+
+CREATE TABLE pamResponses(
+    line_id SERIAL PRIMARY KEY,
+    season integer NOT NULL,
+    episode integer NOT NULL,
+    character VARCHAR(100),
+    line VARCHAR(1500),
+    response VARCHAR(1500)
+);
+
+ALTER TABLE pamResponses ADD COLUMN ts_lines tsvector GENERATED ALWAYS AS (to_tsvector('simple', replace(line, '''', ''))) STORED;
+
+CREATE TABLE andyResponses(
+    line_id SERIAL PRIMARY KEY,
+    season integer NOT NULL,
+    episode integer NOT NULL,
+    character VARCHAR(100),
+    line VARCHAR(1500),
+    response VARCHAR(1500)
+);
+
+ALTER TABLE andyResponses ADD COLUMN ts_lines tsvector GENERATED ALWAYS AS (to_tsvector('simple', replace(line, '''', ''))) STORED;

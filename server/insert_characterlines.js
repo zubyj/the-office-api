@@ -24,8 +24,9 @@ const insertLines = async(name) => {
                         const line = lines[j]['line_text'];
                         const response = lines[j+1]['line_text'];
 
-                        const newLine =  pool.query("INSERT INTO jimResponses (season, episode, character, line, response) VALUES($1, $2, $3, $4, $5) RETURNING *",
-                        [season, episode, character, line, response]);
+                        const tableName = name.charAt(0).toLowerCase() + name.slice(1) + 'Responses';
+                        const query =  "INSERT INTO " +  tableName + " (season, episode, character, line, response) VALUES($1, $2, $3, $4, $5) RETURNING *"
+                        const newLine =  pool.query(query, [season, episode, character, line, response]);
                     }
                 }
             }
@@ -38,6 +39,13 @@ const insertLines = async(name) => {
         console.error(err);
     }
 }
+/*
+DONE
 
+insertLines('Michael');
+insertLines('Dwight');
 insertLines('Jim');
+insertLines('Pam');
+*/
+insertLines('Andy');
 
