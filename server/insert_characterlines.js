@@ -6,7 +6,7 @@ It reads the complete office script and inserts each line into the database alon
 const fs = require('fs')
 const pool = require('./db');
 
-const insertLines = async() => {
+const insertLines = async(name) => {
     try {
         fs.readFile('office-script.json', 'utf-8', (err, jsonString) => {
             if (err) {
@@ -17,14 +17,14 @@ const insertLines = async() => {
                 const lines = JSON.parse(jsonString);
                 for (var j=0; j<lines.length-1; j++) {
                     const speaker = lines[j+1]['speaker'];
-                    if (speaker == 'Michael') {
+                    if (speaker == name) {
                         const season = lines[j]['season']
                         const episode = lines[j]['episode'];
                         const character = lines[j]['speaker'];
                         const line = lines[j]['line_text'];
                         const response = lines[j+1]['line_text'];
 
-                        const newLine =  pool.query("INSERT INTO michaelresponses (season, episode, character, line, response) VALUES($1, $2, $3, $4, $5) RETURNING *",
+                        const newLine =  pool.query("INSERT INTO jimResponses (season, episode, character, line, response) VALUES($1, $2, $3, $4, $5) RETURNING *",
                         [season, episode, character, line, response]);
                     }
                 }
@@ -39,5 +39,5 @@ const insertLines = async() => {
     }
 }
 
-insertLines()
+insertLines('Jim');
 

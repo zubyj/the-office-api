@@ -8,14 +8,6 @@ CREATE TABLE lines(
     episode integer NOT NULL
 );
 
-CREATE TABLE michaelResponses(
-    line_id SERIAL PRIMARY KEY,
-    season integer NOT NULL,
-    episode integer NOT NULL,
-    character VARCHAR(100),
-    line VARCHAR(1500),
-    response VARCHAR(1500)
-);
 
 /* 
 read a random row from the table 
@@ -43,6 +35,40 @@ ALTER TABLE lines ADD COLUMN ts_lines tsvector GENERATED ALWAYS AS (to_tsvector(
 
 
 /*
+Ask characters questions
+*/
+/*
 Have to make a table for each characters responses. 
 */
+
+CREATE TABLE michaelResponses(
+    line_id SERIAL PRIMARY KEY,
+    season integer NOT NULL,
+    episode integer NOT NULL,
+    character VARCHAR(100),
+    line VARCHAR(1500),
+    response VARCHAR(1500)
+);
+
 ALTER TABLE michaelResponses ADD COLUMN ts_lines tsvector GENERATED ALWAYS AS (to_tsvector('simple', replace(line, '''', ''))) STORED;
+
+CREATE TABLE dwightResponses(
+    line_id SERIAL PRIMARY KEY,
+    season integer NOT NULL,
+    episode integer NOT NULL,
+    character VARCHAR(100),
+    line VARCHAR(1500),
+    response VARCHAR(1500)
+);
+
+ALTER TABLE michaelResponses ADD COLUMN ts_lines tsvector GENERATED ALWAYS AS (to_tsvector('simple', replace(line, '''', ''))) STORED;
+
+CREATE TABLE jimResponses(
+    line_id SERIAL PRIMARY KEY,
+    season integer NOT NULL,
+    episode integer NOT NULL,
+    character VARCHAR(100),
+    line VARCHAR(1500),
+    response VARCHAR(1500)
+);
+
