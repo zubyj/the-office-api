@@ -26,13 +26,13 @@ UPDATE WHEN WEBSITE LIVE
 https://expressjs.com/en/advanced/best-practice-security.html#use-helmet
 Under set cooke security options, set httponly to true, and domain
 */
-const session = require('cookie-session');
-app.set('trust proxy', 1);
-app.use(session({
-    // keys: process.env.COOKIE_SECRET,
-    secret: process.env.COOKIE_SECRET,
-    name: 'sessionId'
-}))
+// const session = require('cookie-session');
+// app.set('trust proxy', 1);
+// app.use(session({
+//     // keys: process.env.COOKIE_SECRET,
+//     secret: process.env.COOKIE_SECRET,
+//     name: 'sessionId'
+// }))
 
 app.get("/", async(req, res) => {
     try {
