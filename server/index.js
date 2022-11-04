@@ -5,7 +5,7 @@ const app = express()
 const cors = require("cors");
 const helmet = require("helmet");
 
-const PORT = 8080;
+const PORT = process.env.PORT;
 const pool = require('./db');
 require('dotenv').config()
 
