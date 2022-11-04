@@ -1,8 +1,13 @@
 const express = require('express');
 const app = express()
+
+// middleware 
 const cors = require("cors");
+const helmet = require("helmet");
+
 const PORT = 8080;
 const pool = require('./db');
+require('dotenv').config()
 
 
 // Middleware (sits between the client/browser and server/api)
@@ -10,7 +15,24 @@ const pool = require('./db');
 app.use(cors());
 // gets the request body and converts it to json, same as body-parser
 app.use(express.json())
+// sets HTTPS headers (stops cross-site scripting attacks, ensures secure (HTTPS) connection to client)
+app.use(helmet());
 
+/*
+Avoid using default sesson cookie name
+Sets cookie security options
+
+UPDATE WHEN WEBSITE LIVE
+https://expressjs.com/en/advanced/best-practice-security.html#use-helmet
+Under set cooke security options, set httponly to true, and domain
+*/
+const session = require('cookie-session');
+app.set('trust proxy', 1);
+app.use(session({
+    // keys: process.env.COOKIE_SECRET,
+    secret: process.env.COOKIE_SECRET,
+    name: 'sessionId'
+}))
 
 app.get("/", async(req, res) => {
     try {
