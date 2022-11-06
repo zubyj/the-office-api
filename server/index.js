@@ -1,5 +1,8 @@
+
 const express = require('express');
 const app = express()
+
+require('dotenv').config()
 
 // middleware 
 const cors = require("cors");
@@ -7,7 +10,6 @@ const helmet = require("helmet");
 
 const PORT = process.env.RDS_PORT;
 const pool = require('./db');
-require('dotenv').config()
 
 
 // Middleware (sits between the client/browser and server/api)
