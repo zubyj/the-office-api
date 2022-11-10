@@ -1,5 +1,6 @@
 
 const express = require('express');
+const path = require('path');
 const app = express()
 
 require('dotenv').config()
@@ -38,15 +39,20 @@ Under set cooke security options, set httponly to true, and domain
 //     name: 'sessionId'
 // }))
 
-app.get("/", async(req, res) => {
-    try {
-        res.render('index.html');
-        // res.send('Welcome to The Office API! Check out the docs to get started and make some requests.');
-    }
-    catch (err) {
-        console.error(err);
-    }
-});
+// app.get("/", async(req, res) => {
+//     try {
+//         res.render('index.html');
+//         // res.send('Welcome to The Office API! Check out the docs to get started and make some requests.');
+//     }
+//     catch (err) {
+//         console.error(err);
+//     }
+// });
+
+app.get('/', function(req, res) {
+    res.sendFile(path.join(__dirname, '/the-office-script-api-tutorial/dist/index.html'));
+  });
+
 
 // Gets a random line
 app.get("/random", async(req, res) => {
