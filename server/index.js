@@ -8,7 +8,7 @@ require('dotenv').config()
 const cors = require("cors");
 const helmet = require("helmet");
 
-const PORT = process.env.RDS_PORT;
+const PORT = process.env.PORT;
 const pool = require('./db');
 
 
@@ -269,6 +269,6 @@ app.get("/seasons/:season/episodes/:episode/characters/:character", async(req, r
     }
 })
 
-app.listen(PORT, (req, res) => {
+app.listen(PORT || 5000, (req, res) => {
     console.log(`server is running on port ${PORT}`);
 })
