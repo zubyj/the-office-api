@@ -47,6 +47,7 @@ app.get("/", async(req, res) => {
 
 // Gets a random line
 app.get("/random", async(req, res) => {
+    console.log('getting random quote');
     try {
         const quote = await pool.query(
             "SELECT season, episode, character, line FROM lines OFFSET floor(random() * (SELECT COUNT(*) FROM lines))"
