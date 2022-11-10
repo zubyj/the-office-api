@@ -50,7 +50,7 @@ Under set cooke security options, set httponly to true, and domain
 // });
 
 app.get('/', function(req, res) {
-    res.sendFile('the-office-script-api-tutorial/dist/index.html');
+    res.sendFile(path.join(__dirname, 'the-office-script-api-tutorial/dist/index.html'));
   });
 
 
