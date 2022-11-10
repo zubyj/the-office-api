@@ -22,7 +22,7 @@ app.use(express.json())
 // sets HTTPS headers (stops cross-site scripting attacks, ensures secure (HTTPS) connection to client)
 app.use(helmet());
 // Serves static assets from given folder
-app.use(express.static('the-office-script-api-tutorial/dist'));
+app.use(express.static('docs-page/dist'));
 
 /*
 Avoid using default sesson cookie name
