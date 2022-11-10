@@ -19,6 +19,8 @@ app.use(cors());
 app.use(express.json())
 // sets HTTPS headers (stops cross-site scripting attacks, ensures secure (HTTPS) connection to client)
 app.use(helmet());
+// Serves static assets from given folder
+app.use(express.static('the-office-script-api-tutorial/dist'));
 
 /*
 Avoid using default sesson cookie name
@@ -38,7 +40,8 @@ Under set cooke security options, set httponly to true, and domain
 
 app.get("/", async(req, res) => {
     try {
-        res.send('Welcome to The Office API! Check out the docs to get started and make some requests.');
+        res.render('index.html');
+        // res.send('Welcome to The Office API! Check out the docs to get started and make some requests.');
     }
     catch (err) {
         console.error(err);
