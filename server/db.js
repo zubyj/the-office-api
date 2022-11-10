@@ -7,7 +7,7 @@ const pool = new Pool({
     password: process.env.RDS_PASSWORD, 
     host: process.env.RDS_HOSTNAME,
     port: parseInt(process.env.RDS_PORT),
-    // database: process.env.DATABASE,
+    database: process.env.RDS_DATABASE
 });
 
 module.exports = pool;
