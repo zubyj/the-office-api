@@ -11,6 +11,7 @@ const helmet = require("helmet");
 
 const PORT = process.env.PORT;
 const pool = require('./db');
+const { realpathSync } = require('fs');
 
 
 // Middleware (sits between the client/browser and server/api)
@@ -51,8 +52,8 @@ Under set cooke security options, set httponly to true, and domain
 
 // sendFile will go here
 app.get('/', function(req, res) {
-    res.send("The Office API");
-//    res.sendFile(path.join(__dirname, 'the-office-script-api-tutorial/dist/index.html'));
+    //res.send('hi')
+    res.sendFile(path.join(__dirname, 'the-office-script-api-tutorial/dist/index.html'));
   });
 
 // Gets a random line
