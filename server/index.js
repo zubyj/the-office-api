@@ -49,10 +49,10 @@ Under set cooke security options, set httponly to true, and domain
 //     }
 // });
 
+// sendFile will go here
 app.get('/', function(req, res) {
-    res.sendFile('the-office-script-api-tutorial/dist/index.html', {'root': '../'});
-});
-
+    res.sendFile(path.join(__dirname, '../the-office-script-api-tutorial/dist/index.html'));
+  });
 
 // Gets a random line
 app.get("/random", async(req, res) => {
