@@ -57,15 +57,12 @@
         top: 0;
         display: flex;
         flex-direction: column;
-        width: 6rem;
-        min-height: 100vh;
+        width: 3rem;
+        max-height: 100vh;
         overflow: hidden;
-        padding: 1rem;
         justify-content: baseline;
-
         background-color: var(--dark);
         color: var(--light);
-
         transition: 0.2s ease-out;
 
         .logo {
@@ -116,7 +113,7 @@
                 transition: 0.2s ease-in-out;
 
                 .material-icons {
-                    font-size: 2rem;
+                    font-size: 1.5rem;
                 }
                 &:hover {
                     .material-icons {
@@ -171,5 +168,12 @@
             position: fixed;
             z-index: 99;
         }
+    }
+
+    @media (min-width: 1024px) {
+        aside {
+            width: 6rem;
+            padding: 1rem;
+            }
     }
 </style>
