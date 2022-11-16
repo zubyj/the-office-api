@@ -4,7 +4,7 @@ It reads the complete office script and inserts each line into the database alon
 */
 
 const fs = require('fs')
-const pool = require('./db');
+const pool = require('../db');
 
 const insertLines = async(name) => {
     try {

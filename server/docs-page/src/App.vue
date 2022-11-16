@@ -10,7 +10,7 @@
       <Sidebar/>
       <main>
         <h1 id="appname">The Office API</h1>
-        <h2>REST API for getting lines from NBC's "The Office"</h2>
+        <h2 id="description">REST API for getting lines from NBC's "The Office"</h2>
 
         <!-- Gets a random line -->
         <div id="random_line">
@@ -138,7 +138,7 @@
 }
 
 #appname {
-  font-size: 4rem;
+  font-size: 2rem;
   color: var(--primary-alt)
 }
 
@@ -171,8 +171,18 @@ button {
     padding: 2rem;
 
     @media (max-width: 1024px) {
-      padding-left: 6rem;
+      padding-left: 2rem;
     }
+  }
+}
+
+@media (min-width: 1024px) {
+  #appname {
+    font-size: 3rem;
+  }
+
+  .app {
+    padding-left: 10rem;
   }
 }
 </style>
