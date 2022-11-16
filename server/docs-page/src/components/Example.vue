@@ -46,8 +46,10 @@ defineProps({
 
 .example {
   color: var(--light);
-  border: 1px solid white;
   padding: 1rem;
+  border-top: 1px solid white;
+  border-bottom: 1px solid white;
+  
 }
 
 .header {
