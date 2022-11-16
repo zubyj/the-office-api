@@ -26,9 +26,9 @@ defineProps({
     <span id="method">
         GET
     </span>
-    <button id="path">
+    <div id="path">
         https://theofficescript.com{{path}}
-    </button>
+    </div>
     <div class="description">
         {{description}}
     </div>
@@ -65,12 +65,8 @@ defineProps({
 }
 
 #path {
-    background-color: var(--dark);
     color: var(--light);
-    border: 1px solid var(--dark);
-    border-radius: 10px;
     padding: .5rem;
-    
 }
 
 #paramTitle {
