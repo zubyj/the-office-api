@@ -8,6 +8,7 @@ require('dotenv').config()
 // middleware 
 const cors = require("cors");
 const helmet = require("helmet");
+const rateLimit = require("express-rate-limit");
 
 const PORT = process.env.PORT;
 const pool = require('./db');
@@ -15,6 +16,7 @@ const { realpathSync } = require('fs');
 
 
 // Middleware (sits between the client/browser and server/api)
+
 // lets server get requests from localhost
 app.use(cors());
 // gets the request body and converts it to json, same as body-parser
@@ -23,6 +25,14 @@ app.use(express.json())
 app.use(helmet());
 // Serves static assets from given folder
 app.use(express.static('docs-page/dist'));
+// Applies rate limit to all requests
+const limiter = rateLimit({
+    windowsMs: 15 * 60 * 1000, // 15 minutes
+    max: 100, // limit each IP to 100 requests per window (15 mins here)
+    standardHeaders: true, // Returns rate limit info in RateLimit headers
+    legacyHeaders: false, // Disable X-RateLimit headers
+})
+app.use(limiter)
 
 /*
 Avoid using default sesson cookie name
@@ -39,16 +49,6 @@ Under set cooke security options, set httponly to true, and domain
 //     secret: process.env.COOKIE_SECRET,
 //     name: 'sessionId'
 // }))
-
-// app.get("/", async(req, res) => {
-//     try {
-//         res.render('index.html');
-//         // res.send('Welcome to The Office API! Check out the docs to get started and make some requests.');
-//     }
-//     catch (err) {
-//         console.error(err);
-//     }
-// });
 
 // sendFile will go here
 app.get('/', function(req, res) {
