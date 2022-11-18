@@ -37,18 +37,16 @@ app.use(limiter)
 /*
 Avoid using default sesson cookie name
 Sets cookie security options
-
 UPDATE WHEN WEBSITE LIVE
 https://expressjs.com/en/advanced/best-practice-security.html#use-helmet
 Under set cooke security options, set httponly to true, and domain
 */
-// const session = require('cookie-session');
-// app.set('trust proxy', 1);
-// app.use(session({
-//     // keys: process.env.COOKIE_SECRET,
-//     secret: process.env.COOKIE_SECRET,
-//     name: 'sessionId'
-// }))
+const session = require('cookie-session');
+app.set('trust proxy', 1);
+app.use(session({
+    secret: process.env.COOKIE_SECRET,
+    name: 'sessionId'
+}))
 
 // sendFile will go here
 app.get('/', function(req, res) {
