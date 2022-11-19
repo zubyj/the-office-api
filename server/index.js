@@ -43,7 +43,6 @@ app.use(session({
 
 // Gets the api documentation webpage
 app.get('/', function(req, res) {
-    //res.send('hi')
     res.sendFile(path.join(__dirname, 'docs-page/dist/index.html'));
   });
 

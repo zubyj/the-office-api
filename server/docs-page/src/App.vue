@@ -1,5 +1,5 @@
 <script setup>
-  import Sidebar from './components/Sidebar.vue'
+  import Sidebar from './components/Sidebar.vue';
   import Endpoint from './components/Endpoint.vue';
   import Example from './components/Example.vue';
 </script>
@@ -11,6 +11,49 @@
       <main>
         <h1 id="appname">The Office API</h1>
         <h2 id="description">REST API for getting lines from NBC's "The Office"</h2>
+
+        <!-- Ask the script -->
+        <div id="ask_question">
+          <Endpoint 
+            name="Ask the script"
+            path="/ask/:question"
+            :parameters="{
+              question: 'text separated by hyphens'
+            }"
+          />
+          <Example
+            path="/ask/i-declare-bankruptcy"
+            season="4"
+            episode="4"
+            character="Oscar"
+            line="Hey, I just wanted you to know that you can't just say the word bankruptcy and expect anything to happen."
+          />
+        </div>
+
+        <!-- Ask a character -->
+        <div id="ask_question_character">
+          <Endpoint 
+            name="Ask a character"
+            path="/characters/:character/ask/:question"
+            :parameters="{
+              question: 'text separated by hyphens',
+              character: 'the first name of the character',
+            }"
+          />
+          <div>
+            <span id="disclaimer">Only the following characters are currently available</span>
+            <div id="characterNames">
+              dwight, michael, jim, pam, andy
+            </div>
+          </div>
+          
+          <Example
+            path="/characters/dwight/ask/bears-eat-beets"
+            season="3"
+            episode="20"
+            line="Bears do not--- What is going on--- What are you doing?!"
+          />
+        </div>
 
         <!-- Gets a random line -->
         <div id="random_line">
@@ -76,44 +119,6 @@
             path="/seasons/2/episodes/1/characters/michael/random"
             line="Somebody, who I think a lot of us, cannot keep, from checking out. The 'Hottest in the Office' award goes to... ...Ryan the temp!"
             />
-        </div>
-
-        <!-- Ask the script -->
-        <div id="ask_question">
-          <Endpoint 
-            name="Ask the script"
-            path="/ask/:question"
-            :parameters="{
-              question: 'text separated by hyphens'
-            }"
-          />
-          <Example
-            path="/ask/i-declare-bankruptcy"
-            line="Hey, I just wanted you to know that you can't just say the word bankruptcy and expect anything to happen."
-          />
-        </div>
-
-        <!-- Ask a character -->
-        <div id="ask_question_character">
-          <Endpoint 
-            name="Ask a character"
-            path="/characters/:character/ask/:question"
-            :parameters="{
-              question: 'text separated by hyphens',
-              character: 'the first name of the character',
-            }"
-          />
-          <div>
-            <span id="disclaimer">Currently, only the following characters are available</span>
-            <div id="characterNames">
-              dwight, michael, jim, pam, andy
-            </div>
-          </div>
-          
-          <Example
-            path="/ask/i-declare-bankruptcy"
-            line="Hey, I just wanted you to know that you can't just say the word bankruptcy and expect anything to happen."
-          />
         </div>
       </main>
     </div>

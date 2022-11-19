@@ -50,7 +50,6 @@ defineProps({
 .example {
   color: var(--light);
   padding: 1rem;
-  border-top: 1px solid white;
   border-bottom: 1px solid white;
 }
 
