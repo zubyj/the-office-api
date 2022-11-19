@@ -1,22 +1,16 @@
-
 const express = require('express');
 const path = require('path');
 const app = express()
-
 require('dotenv').config()
+const PORT = process.env.PORT;
+const pool = require('./db');
 
 // middleware 
 const cors = require("cors");
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
 
-const PORT = process.env.PORT;
-const pool = require('./db');
-const { realpathSync } = require('fs');
-
-
 // Middleware (sits between the client/browser and server/api)
-
 // lets server get requests from localhost
 app.use(cors());
 // gets the request body and converts it to json, same as body-parser
@@ -35,9 +29,8 @@ const limiter = rateLimit({
 app.use(limiter)
 
 /*
-Avoid using default sesson cookie name
+Avoids using default sesson cookie name
 Sets cookie security options
-UPDATE WHEN WEBSITE LIVE
 https://expressjs.com/en/advanced/best-practice-security.html#use-helmet
 Under set cooke security options, set httponly to true, and domain
 */
@@ -48,7 +41,7 @@ app.use(session({
     name: 'sessionId'
 }))
 
-// sendFile will go here
+// Gets the api documentation webpage
 app.get('/', function(req, res) {
     //res.send('hi')
     res.sendFile(path.join(__dirname, 'docs-page/dist/index.html'));
@@ -131,14 +124,14 @@ app.get("/characters/:character/ask/:question", async (req, res) => {
     var characterName = character.charAt(0).toUpperCase() + character.slice(1).toLowerCase();
     const tableName = characterName.charAt(0).toLowerCase() + characterName.slice(1) + 'responses';
     try {
-        var query = "SELECT season, episode, character, response FROM " + tableName + " WHERE ts_lines @@ to_tsquery('simple', $1) ORDER BY ts_rank(ts_lines, to_tsquery('simple', $1)) DESC LIMIT 100";
+        var query = "SELECT season, episode, response FROM " + tableName + " WHERE ts_lines @@ to_tsquery('simple', $1) ORDER BY ts_rank(ts_lines, to_tsquery('simple', $1)) DESC LIMIT 100";
         const response = await pool.query(query, [q]);
 
         if (response.rows.length == 0) {
             // Try trigrams if full-text search fails
             console.log('Full text search doesnt work')
             try {
-                var query = "SELECT season, episode, character, response FROM " +  tableName + " ORDER BY SIMILARITY(line, $1) DESC LIMIT 5"
+                var query = "SELECT season, episode, response FROM " +  tableName + " ORDER BY SIMILARITY(line, $1) DESC LIMIT 5"
                 const line = await pool.query(query, [q]);
                 res.json(line.rows[0]);
             }
