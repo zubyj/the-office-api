@@ -21,29 +21,29 @@
         <div class="menu">
             <h2 v-if="is_expanded" id="title" class="text">Endpoints</h2>
             <ul class="nav">
-                <li class="nav-item"><a href="#random_line">
-                    <span class="material-icons">filter_1</span> 
-                    <span v-if="is_expanded" class="text">Get random line</span> 
-                </a></li>
-                <li class="nav-item"><a href="#random_line_character">
-                    <span class="material-icons">filter_2</span>
-                    <span v-if="is_expanded" class="text">Get random line from character</span>
-                </a></li>
-                <li class="nav-item"><a href="#random_line_season_character">
-                    <span class="material-icons">filter_3</span>
-                    <span v-if="is_expanded" class="text">Get random line from season and character</span>
-                </a></li>
-                <li class="nav-item"><a href="#random_line_season_episode_character">
-                    <span class="material-icons">filter_4</span>
-                    <span v-if="is_expanded" class="text">Get random line from season, episode, and character</span>
-                </a></li>
                 <li class="nav-item"><a href="#ask_question">
-                    <span class="material-icons">filter_5</span>
+                    <span class="material-icons">filter_1</span>
                     <span v-if="is_expanded" class="text">Ask the script</span>
                 </a></li>
                 <li class="nav-item"><a href="#ask_question_character">
-                    <span class="material-icons">filter_6</span>
+                    <span class="material-icons">filter_2</span>
                     <span v-if="is_expanded" class="text">Ask a character</span>
+                </a></li>
+                <li class="nav-item"><a href="#random_line">
+                    <span class="material-icons">filter_3</span> 
+                    <span v-if="is_expanded" class="text">Get random line</span> 
+                </a></li>
+                <li class="nav-item"><a href="#random_line_character">
+                    <span class="material-icons">filter_4</span>
+                    <span v-if="is_expanded" class="text">Get random line from character</span>
+                </a></li>
+                <li class="nav-item"><a href="#random_line_season_character">
+                    <span class="material-icons">filter_5</span>
+                    <span v-if="is_expanded" class="text">Get random line from season and character</span>
+                </a></li>
+                <li class="nav-item"><a href="#random_line_season_episode_character">
+                    <span class="material-icons">filter_6</span>
+                    <span v-if="is_expanded" class="text">Get random line from season, episode, and character</span>
                 </a></li>
             </ul>
         </div>
