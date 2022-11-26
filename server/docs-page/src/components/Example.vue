@@ -28,11 +28,12 @@ defineProps({
       <h2>Example</h2>
       <div class="header">Request</div>
 
-      <div class="div" id="requestDiv">
+      <div id="requestDiv">
         <a :href="`https://www.theofficescript.com${path}`" id="request" target="_blank">
           theofficescript.com{{path}}
         </a>
       </div>
+
         
         <div class="header">Response</div>
             {
