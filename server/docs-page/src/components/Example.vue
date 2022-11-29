@@ -55,7 +55,7 @@ defineProps({
 #requestDiv {
   margin-top: 1rem;
   margin-bottom: 1rem;
-  width: 100vw;
+  width: 100vw !important;
 }
 
 #request {
