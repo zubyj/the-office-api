@@ -161,17 +161,17 @@ app.get("/seasons/:season/random", async (req, res) => {
     }
 }) 
 
-// Gets script from given season and episode
-app.get("/seasons/:season/episodes/:episode", async(req, res) => {
-    try {
-        const { season, episode } = req.params;
-        const script = await pool.query("SELECT character, line FROM lines WHERE season = $1 AND episode = $2", [season, episode])
-        res.json(script.rows);
-    }
-    catch(err) {
-        console.error(err);
-    }
-})
+// Gets script from given episode
+// app.get("/seasons/:season/episodes/:episode", async(req, res) => {
+//     try {
+//         const { season, episode } = req.params;
+//         const script = await pool.query("SELECT character, line FROM lines WHERE season = $1 AND episode = $2", [season, episode])
+//         res.json(script.rows);
+//     }
+//     catch(err) {
+//         console.error(err);
+//     }
+// })
 
 // Gets a random quote from given season
 app.get("/seasons/:season/random", async(req, res) => {

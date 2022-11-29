@@ -28,22 +28,20 @@ defineProps({
       <h2>Example</h2>
       <div class="header">Request</div>
 
-      <span id="requestDiv">
+      <div id="requestDiv">
         <a :href="`https://www.theofficescript.com${path}`" id="request" target="_blank">
           theofficescript.com{{path}}
         </a>
-      </span>
-
-        
-        <div class="header">Response</div>
-            {
-            <br>
-              <span v-if="season">season :  {{season}}<br></span>
-              <span v-if="episode">episode :  {{episode}}<br></span>
-              <span v-if="character">character :  {{character}}<br></span>
-              <span v-if="line">line :  {{line}}<br></span>
-            }
       </div>
+      <div class="header">Response</div>
+          {
+          <br>
+            <span v-if="season">season :  {{season}}<br></span>
+            <span v-if="episode">episode :  {{episode}}<br></span>
+            <span v-if="character">character :  {{character}}<br></span>
+            <span v-if="line">line :  {{line}}<br></span>
+          }
+    </div>
 </template>
 
 <style scoped>
@@ -57,6 +55,7 @@ defineProps({
 #requestDiv {
   margin-top: 1rem;
   margin-bottom: 1rem;
+  width: 100vw;
 }
 
 #request {

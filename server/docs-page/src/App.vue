@@ -40,13 +40,14 @@
               character: 'the first name of the character',
             }"
           />
+
           <div>
             <span id="disclaimer">Only the following characters are currently available</span>
             <div id="characterNames">
               dwight, michael, jim, pam, andy
             </div>
           </div>
-          
+
           <Example
             path="/characters/dwight/ask/bears-eat-beets"
             season="3"
