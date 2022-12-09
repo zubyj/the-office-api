@@ -171,6 +171,7 @@ button {
 
 .app {
   display: flex;
+  width: 30rem;
 
   main {
     flex: 1 1 0;
@@ -188,6 +189,7 @@ button {
 
   .app {
     margin-left: 8rem;
+    width: 100%;
   }
 }
 </style>

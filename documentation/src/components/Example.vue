@@ -50,12 +50,12 @@ defineProps({
   color: var(--light);
   padding: 1rem;
   border-bottom: 1px solid white;
+  width: 100%;
 }
 
 #requestDiv {
   margin-top: 1rem;
   margin-bottom: 1rem;
-  width: 100vw !important;
 }
 
 #request {
@@ -65,6 +65,7 @@ defineProps({
   border-radius: 10px;
   border: 1px solid white;
 }
+
 
 #request:hover {
   background-color: var(--light);
