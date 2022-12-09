@@ -43,7 +43,7 @@ app.use(session({
 
 // Gets the api documentation webpage
 app.get('/', function(req, res) {
-    res.sendFile(path.join(__dirname, 'docs-page/dist/index.html'));
+    res.sendFile(path.join(__dirname, 'documentation/dist/index.html'));
   });
 
 // Gets a random line
