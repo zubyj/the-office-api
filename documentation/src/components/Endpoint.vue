@@ -16,7 +16,6 @@ defineProps({
     type: Object,
     required: false,
   },
-
 })
 </script>
 

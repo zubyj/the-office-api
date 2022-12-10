@@ -1,4 +1,6 @@
 <script setup>
+  import { event } from 'vue-gtag'
+
 defineProps({
   path: {
     type: String,
@@ -21,6 +23,13 @@ defineProps({
     required: false
   },
 })
+function btnClicked() {
+  event('api-request-click', {
+    'event_category': {path},
+    'event_label': 'API request made using button on documentation website>',
+    'value': 1,
+  })
+}
 </script>
 
 <template>
@@ -29,7 +38,7 @@ defineProps({
       <div class="header">Request</div>
 
       <div id="requestDiv">
-        <a :href="`https://www.theofficescript.com${path}`" id="request" target="_blank">
+        <a :href="`https://www.theofficescript.com${path}`" id="request" target="_blank" @click="btnClicked">
           theofficescript.com{{path}}
         </a>
       </div>
@@ -48,9 +57,9 @@ defineProps({
 
 .example {
   color: var(--light);
-  padding: 1rem;
   border-bottom: 1px solid white;
   width: 100%;
+  padding-bottom: 1rem;
 }
 
 #requestDiv {
@@ -66,10 +75,8 @@ defineProps({
   border: 1px solid white;
 }
 
-
 #request:hover {
-  background-color: var(--light);
-  color: var(--dark);
+  color: var(--primary-alt)
 }
 
 .header {

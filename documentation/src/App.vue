@@ -2,6 +2,7 @@
   import Sidebar from './components/Sidebar.vue';
   import Endpoint from './components/Endpoint.vue';
   import Example from './components/Example.vue';
+  import { event } from 'vue-gtag'
 </script>
 
 <template>
@@ -189,7 +190,7 @@ button {
 
   .app {
     margin-left: 8rem;
-    width: 100%;
+    width: 100%; 
   }
 }
 </style>
