@@ -1,6 +1,4 @@
 <script setup>
-  import { event } from 'vue-gtag'
-
 defineProps({
   path: {
     type: String,
@@ -23,13 +21,6 @@ defineProps({
     required: false
   },
 })
-function btnClicked() {
-  event('api-request-click', {
-    'event_category': {path},
-    'event_label': 'API request made using button on documentation website>',
-    'value': 1,
-  })
-}
 </script>
 
 <template>
@@ -38,7 +29,7 @@ function btnClicked() {
       <div class="header">Request</div>
 
       <div id="requestDiv">
-        <a :href="`https://www.theofficescript.com${path}`" id="request" target="_blank" @click="btnClicked">
+        <a :href="`https://www.theofficescript.com${path}`" id="request" target="_blank">
           theofficescript.com{{path}}
         </a>
       </div>
