@@ -1,24 +1,21 @@
 <script setup>
-
-
   import Sidebar from './components/Sidebar.vue';
   import Endpoint from './components/Endpoint.vue';
   import Example from './components/Example.vue';
   import { event } from 'vue-gtag';
-  
-
 </script>
 
 <script>
   export default {
     mounted() {
-      event('pageview', { method: 'Homepage'})
+      event('pageview', { method: 'Homepage'});
     }
   }
 </script>
 
 
 <template>
+  
     <div class="app">
       <!-- Sidebar Navigation -->
       <Sidebar/>
