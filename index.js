@@ -5,6 +5,21 @@ require('dotenv').config()
 const PORT = process.env.PORT;
 const pool = require('./db');
 
+const promBundle = require('express-prom-bundle');
+const metricsMiddleware = promBundle({
+    includeMethod: true,
+    includePath: true,
+    includeStatusCode: true,
+    includeUp: true,
+    customLabels: {project_name: 'the-office-api', project_type: 'testing_metrics'},
+    promClient: {
+        collectDefaultMetrics: {
+        }
+    }
+})
+
+app.use(metricsMiddleware);
+
 // middleware 
 const cors = require("cors");
 const helmet = require("helmet");
@@ -34,12 +49,12 @@ Sets cookie security options
 https://expressjs.com/en/advanced/best-practice-security.html#use-helmet
 Under set cooke security options, set httponly to true, and domain
 */
-const session = require('cookie-session');
-app.set('trust proxy', 1);
-app.use(session({
-    secret: process.env.COOKIE_SECRET,
-    name: 'sessionId'
-}))
+// const session = require('cookie-session');
+// app.set('trust proxy', 1);
+// app.use(session({
+//     secret: process.env.COOKIE_SECRET,
+//     name: 'sessionId'
+// }))
 
 // Gets the api documentation webpage
 app.get('/', function(req, res) {
@@ -271,6 +286,6 @@ app.get("/seasons/:season/episodes/:episode/characters/:character", async(req, r
     }
 })
 
-app.listen(PORT || 5000, (req, res) => {
+app.listen(PORT || 5001, (req, res) => {
     console.log(`server is running on port ${PORT}`);
 })
