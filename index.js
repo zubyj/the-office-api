@@ -3,7 +3,6 @@ const path = require('path');
 const app = express()
 const pool = require('./db');
 const compression = require('compression');
-const winston = require('winston');
 
 // middleware imports
 const cors = require("cors");
@@ -17,20 +16,6 @@ const buildProdLogger = require('./logger/prod-logger');
 require('dotenv').config()
 const PORT = process.env.PORT;
 
-const promBundle = require('express-prom-bundle');
-const metricsMiddleware = promBundle({
-    includeMethod: true,
-    includePath: true,
-    includeStatusCode: true,
-    includeUp: true,
-    customLabels: {project_name: 'the-office-api', project_type: 'testing_metrics'},
-    promClient: {
-        collectDefaultMetrics: {
-        }
-    }
-})  
-app.use(metricsMiddleware);
-
 // Initialize logger
 let logger = null;
 if (process.env.NODE_ENV === 'development') {
@@ -41,9 +26,7 @@ else {
     logger = buildProdLogger();
 }
 
-
 // Middleware 
-
 // Add compression for faster performance
 app.use(compression())
 // lets server get requests from localhost
@@ -67,7 +50,7 @@ app.use(limiter)
 Avoids using default sesson cookie name
 Sets cookie security options
 https://expressjs.com/en/advanced/best-practice-security.html#use-helmet
-Under set cooke security options, set httponly to true, and domain
+Under set cookie security options, set httponly to true, and domain
 */
 // const session = require('cookie-session');
 // app.set('trust proxy', 1);
@@ -79,6 +62,7 @@ Under set cooke security options, set httponly to true, and domain
 
 // Gets the api documentation webpage
 app.get('/', function(req, res) {
+    logger.info('Open homepage');
     res.sendFile(path.join(__dirname, 'documentation/dist/index.html'));
   });
 
@@ -92,23 +76,24 @@ app.get("/random", async(req, res) => {
         res.json(quote.rows[0]);
     }
     catch (err) {
-        console.error(err);
+        logger.error(err);
     }
 })
 
 // Get a response given user text
 app.get("/ask/:question", async (req, res) => {
+    logger.info('Ask question to script');
     const { question } = req.params;
     var q = question.replaceAll("-", " & ");
     q = q.replace("'", "").toLowerCase();
-    console.log(q);
+
     // Try full text search
     try {
         const line = await pool.query(
              "SELECT line_id, line FROM lines WHERE ts_lines @@ to_tsquery('simple', $1) ORDER BY ts_rank(ts_lines, to_tsquery('simple', $1)) DESC LIMIT 10", [q]
             )
         if (line.rows.length == 0) {
-            console.log("full text search didnt work");
+            logger.warn("Full text search didnt work. Trying trigrams..")
             // Try trigrams if full-text search fails
             try {
                 const line = await pool.query(
@@ -123,11 +108,11 @@ app.get("/ask/:question", async (req, res) => {
                     res.json(response.rows[0]);
                 } 
                 catch (err) {
-                    console.error(err);
+                    logger.error(err);
                 }
             } 
             catch (err) {
-                console.error(err);
+                logger.error(err);
             }           
         }
         else {
@@ -137,12 +122,11 @@ app.get("/ask/:question", async (req, res) => {
                 const line2 = await pool.query(
                     "SELECT season, episode, character, line FROM lines WHERE line_id = $1", [res_id]
                 )    
-                console.log('match : ' + line.rows[0]['line'] + ', res : ' + line2.rows[0]['line'])
                 res.json(line2.rows[0]);
                 return;
             } 
             catch (err) {
-                console.error(err);
+                logger.error(err);
             }
         }
     } 
@@ -153,6 +137,7 @@ app.get("/ask/:question", async (req, res) => {
 
 // Gets a line from character given user text
 app.get("/characters/:character/ask/:question", async (req, res) => {
+    logger.info('Ask question to character');
     const { character, question } = req.params;
     var q = question.replaceAll("-", " & ");
     q.replace("'", "").toLowerCase();
@@ -171,7 +156,7 @@ app.get("/characters/:character/ask/:question", async (req, res) => {
                 res.json(line.rows[0]);
             }
             catch (err) {
-                console.error(err);
+                logger.error(err);
             }
         } 
         else {
@@ -179,12 +164,13 @@ app.get("/characters/:character/ask/:question", async (req, res) => {
         }
     }
     catch (err) {
-        console.error(err);
+        logger.error(err);
     }
 });
 
 // Gets script for random episode from given season
 app.get("/seasons/:season/random", async (req, res) => {
+    logger.info('Get script from random season and episode');
     try {
         const {season} = req.params;
         const script = await pool.query("SELECT character, line FROM lines WHERE season = $1 OFFSET floor(random() * (SELECT COUNT(*) FROM lines WHERE season = $1))",
@@ -193,7 +179,7 @@ app.get("/seasons/:season/random", async (req, res) => {
         res.json(script.rows)
     }
     catch (err) {
-        console.error(err);
+        logger.error(err);
     }
 }) 
 
@@ -227,6 +213,7 @@ app.get("/seasons/:season/random", async(req, res) => {
 
 // Gets a random quote from a random character given season and episode
 app.get("/seasons/:season/episodes/:episode/random", async(req, res) => {
+    logger.info('Get random quote from random character given season and episode');
     try {
         const { season, episode } = req.params;
         const seasonNum = parseInt(season);
@@ -238,12 +225,13 @@ app.get("/seasons/:season/episodes/:episode/random", async(req, res) => {
         res.json(quote.rows[0]);
     }
     catch (err) {
-        console.error(err);
+        logger.error(err);
     }
 })
 
 // Gets a random quote from given character
 app.get("/characters/:character/random", async(req, res) => {
+    logger.info('Get random quote from given character');
     try {
         const { character } = req.params;
         const characterName = character.charAt(0).toUpperCase() + character.slice(1);
@@ -254,12 +242,13 @@ app.get("/characters/:character/random", async(req, res) => {
         res.json(quote.rows[0]);
     }
     catch (err) {
-        console.error(err);
+        logger.error(err);
     }
 })
 
 // Gets a random quote from given season and character
 app.get("/seasons/:season/characters/:character/random", async(req, res) => {
+    logger.info('Get random quote from given season and character');
     try {
         const { season, character } = req.params;
         const seasonNum = parseInt(season);
@@ -271,12 +260,13 @@ app.get("/seasons/:season/characters/:character/random", async(req, res) => {
         res.json(quote.rows[0]);
     }
     catch (err) {
-        console.error(err);
+        logger.error(err);
     }
 })
 
 // Gets random quote from given season, episode, and character
 app.get("/seasons/:season/episodes/:episode/characters/:character/random", async(req, res) => {
+    logger.info('Get random quote from given season, episode, and character');
     try {
         const { season, episode, character } = req.params;
         const seasonNum = parseInt(season);
@@ -289,12 +279,13 @@ app.get("/seasons/:season/episodes/:episode/characters/:character/random", async
         res.json(quote.rows[0]);
     }
     catch (err) {
-        console.error(err);
+        logger.error(err);
     }
 })
 
 // Gets every line for given character, season, and episode
 app.get("/seasons/:season/episodes/:episode/characters/:character", async(req, res) => {
+    logger.info('Get every line from given character, season, and episode');
     try {
         const { season, episode, character } = req.params;
         const characterName = character.charAt(0).toUpperCase() + character.slice(1);
@@ -303,7 +294,7 @@ app.get("/seasons/:season/episodes/:episode/characters/:character", async(req, r
         res.json(script.rows);
     }
     catch(err) {
-        console.error(err);
+        logger.error(err);
     }
 })
 
