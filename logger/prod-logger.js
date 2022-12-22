@@ -1,5 +1,5 @@
 // const winston = require('winston');
-const { format, createLogger, transports } = require('winston');
+const { format, createLogger, transports, exitOnError } = require('winston');
 const { timestamp, combine, errors, json } = format
 
 function buildProdLogger() {
@@ -11,8 +11,8 @@ function buildProdLogger() {
             json(),
         ),
         defaultMeta: { service: 'user-service' },
-        transports: [new transports.Console()],
+        exitOnError: false,
+        transports: [new transports.File({ filename: `${appRoot}/logger/info.log` })],
     });
-
 }
 module.exports = buildProdLogger

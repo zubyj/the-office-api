@@ -131,7 +131,7 @@ app.get("/ask/:question", async (req, res) => {
         }
     } 
     catch (err) {
-        console.error(err);
+        logger.error(err);
     }
 })
 
@@ -149,7 +149,7 @@ app.get("/characters/:character/ask/:question", async (req, res) => {
 
         if (response.rows.length == 0) {
             // Try trigrams if full-text search fails
-            console.log('Full text search doesnt work')
+            logger.warn('Full text search doesnt work. Trying trigrams');
             try {
                 var query = "SELECT season, episode, response FROM " +  tableName + " ORDER BY SIMILARITY(line, $1) DESC LIMIT 5"
                 const line = await pool.query(query, [q]);
@@ -207,7 +207,7 @@ app.get("/seasons/:season/random", async(req, res) => {
         res.json(quote.rows[0]);
     }
     catch (err) {
-        console.error(err);
+        logger.error(err);
     }
 })
 
