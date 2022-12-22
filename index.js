@@ -1,9 +1,21 @@
 const express = require('express');
 const path = require('path');
 const app = express()
+const pool = require('./db');
+const compression = require('compression');
+const winston = require('winston');
+
+// middleware imports
+const cors = require("cors");
+const helmet = require("helmet");
+const rateLimit = require("express-rate-limit");
+
+// logger
+const buildDevLogger = require('./logger/dev-logger');
+const buildProdLogger = require('./logger/prod-logger');
+
 require('dotenv').config()
 const PORT = process.env.PORT;
-const pool = require('./db');
 
 const promBundle = require('express-prom-bundle');
 const metricsMiddleware = promBundle({
@@ -16,16 +28,24 @@ const metricsMiddleware = promBundle({
         collectDefaultMetrics: {
         }
     }
-})
-
+})  
 app.use(metricsMiddleware);
 
-// middleware 
-const cors = require("cors");
-const helmet = require("helmet");
-const rateLimit = require("express-rate-limit");
+// Initialize logger
+let logger = null;
+if (process.env.NODE_ENV === 'development') {
+    console.log('Running in dev mode');
+    logger = buildDevLogger();
+}
+else {
+    logger = buildProdLogger();
+}
 
-// Middleware (sits between the client/browser and server/api)
+
+// Middleware 
+
+// Add compression for faster performance
+app.use(compression())
 // lets server get requests from localhost
 app.use(cors());
 // gets the request body and converts it to json, same as body-parser
@@ -56,6 +76,7 @@ Under set cooke security options, set httponly to true, and domain
 //     name: 'sessionId'
 // }))
 
+
 // Gets the api documentation webpage
 app.get('/', function(req, res) {
     res.sendFile(path.join(__dirname, 'documentation/dist/index.html'));
@@ -63,12 +84,12 @@ app.get('/', function(req, res) {
 
 // Gets a random line
 app.get("/random", async(req, res) => {
-    console.log('getting random quote');
+    logger.info('Get a random line');
     try {
         const quote = await pool.query(
             "SELECT season, episode, character, line FROM lines OFFSET floor(random() * (SELECT COUNT(*) FROM lines))"
-            )
-            res.json(quote.rows[0]);
+        )
+        res.json(quote.rows[0]);
     }
     catch (err) {
         console.error(err);

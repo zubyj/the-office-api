@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "dev": "NODE_ENV=development nodemon index.js",
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -11,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "compression": "^1.7.4",
     "cookie-session": "^2.0.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
@@ -21,6 +23,7 @@
     "nodemon": "^2.0.20",
     "pg": "^8.8.0",
     "prom-client": "^14.1.0",
-    "response-time": "^2.3.2"
+    "response-time": "^2.3.2",
+    "winston": "^3.8.2"
   }
 }

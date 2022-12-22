@@ -1,5 +1,7 @@
 # The Office API
 
+## REST API for retrieving lines from NBC's, The Office
+
 ## Check out the official API documentation
 [The Office Script API Docs](https://theofficescript.com)
 
@@ -13,3 +15,4 @@ Gets lines from NBC's, "The Office." Get lines from specific episodes or ask que
 ## Technologies
 ExpressJS, VueJS, PostgreSQL, AWS RDS, Heroku, Google Domains
 ## 
+
