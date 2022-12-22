@@ -12,7 +12,7 @@ function buildProdLogger() {
         ),
         defaultMeta: { service: 'user-service' },
         exitOnError: false,
-        transports: [new transports.File({ filename: `${appRoot}/logger/info.log` })],
+        transports: [new transports.File({ filename: 'info.log' })],
     });
 }
 module.exports = buildProdLogger
