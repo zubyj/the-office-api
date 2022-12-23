@@ -36,7 +36,7 @@ app.use(express.json())
 // sets HTTPS headers (stops cross-site scripting attacks, ensures secure (HTTPS) connection to client)
 app.use(helmet());
 // Serves static assets from given folder
-app.use(express.static('documentation/dist'));
+app.use(express.static('docs-website/dist'));
 // Applies rate limit to all requests
 const limiter = rateLimit({
     windowsMs: 15 * 60 * 1000, // 15 minutes
