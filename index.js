@@ -63,7 +63,7 @@ Under set cookie security options, set httponly to true, and domain
 // Gets the api documentation webpage
 app.get('/', function(req, res) {
     logger.info('Open homepage');
-    res.sendFile(path.join(__dirname, 'documentation/dist/index.html'));
+    res.sendFile(path.join(__dirname, 'docs-website/dist/index.html'));
   });
 
 // Gets a random line

@@ -12,7 +12,7 @@ function buildProdLogger() {
         ),
         defaultMeta: { service: 'user-service' },
         exitOnError: false,
-        transports: [new transports.File({ filename: 'info.log' })],
+        transports: [new transports.Console()],
     });
 }
 module.exports = buildProdLogger

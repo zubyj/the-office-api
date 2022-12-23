@@ -15,7 +15,7 @@ function buildDevLogger() {
             format.errors({stack: true}),
             logFormat,
         ),
-        transports: [new transports.File({ filename: 'info.log'})],
+        transports: [new transports.Console()],
     });
 
 }
