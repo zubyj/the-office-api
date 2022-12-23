@@ -23,7 +23,8 @@
         <h1 id="appname">The Office API</h1>
         <h2 id="description">REST API for getting lines from NBC's "The Office"</h2>
 
-        <RequestForm />        
+        <RequestForm /> 
+        
 
         <!-- Ask the script -->
         <div id="ask_question">

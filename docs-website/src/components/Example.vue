@@ -45,12 +45,14 @@ defineProps({
 </template>
 
 <style scoped>
-
+ 
 .example {
   color: var(--light);
-  border-bottom: 1px solid white;
-  width: 100%;
-  padding-bottom: 1rem;
+  border: 1px solid var(--light);
+  border-radius: 15px;
+  padding: 1.5rem;
+  width: 45rem;
+  background-color: var(--dark);
 }
 
 #requestDiv {
@@ -60,7 +62,7 @@ defineProps({
 
 #request {
   color: var(--light);
-  background-color: var(--dark);
+  background-color: black;
   padding: 1rem;
   border-radius: 10px;
   border: 1px solid white;

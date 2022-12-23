@@ -24,10 +24,9 @@ defineProps({
     <h2 id="name">{{name}}</h2>
     <span id="method">
         GET
+        <span id="path">https://theofficescript.com{{path}}</span>
     </span>
-    <div id="path">
-        https://theofficescript.com{{path}}
-    </div>
+
     <div class="description">
         {{description}}
     </div>
@@ -49,8 +48,10 @@ defineProps({
 <style scoped>
 
 .endpoint {
-  padding-top: 3rem;
-  padding-bottom: 2rem;
+  border-top: 1px solid var(--light);
+  padding-top: 5rem;
+  margin-top: 6rem;
+  margin-bottom: 4rem;
 }
 
 #name {
@@ -71,6 +72,8 @@ defineProps({
 #paramTitle {
   padding-top: 1rem;
   color: var(--light);
+  text-decoration: underline;
+  padding-bottom: 1rem;
   
 }
 
