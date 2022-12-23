@@ -2,6 +2,7 @@
   import Sidebar from './components/Sidebar.vue';
   import Endpoint from './components/Endpoint.vue';
   import Example from './components/Example.vue';
+  import RequestForm from './components/RequestForm.vue';
   import { event } from 'vue-gtag';
 </script>
 
@@ -15,13 +16,14 @@
 
 
 <template>
-  
     <div class="app">
       <!-- Sidebar Navigation -->
       <Sidebar/>
       <main>
         <h1 id="appname">The Office API</h1>
         <h2 id="description">REST API for getting lines from NBC's "The Office"</h2>
+
+        <RequestForm />        
 
         <!-- Ask the script -->
         <div id="ask_question">
@@ -156,7 +158,8 @@
 
 #appname {
   font-size: 2rem;
-  color: var(--primary-alt)
+  color: var(--primary-alt);
+  margin-top: 3rem;
 }
 
 button {
