@@ -52,13 +52,12 @@ Sets cookie security options
 https://expressjs.com/en/advanced/best-practice-security.html#use-helmet
 Under set cookie security options, set httponly to true, and domain
 */
-// const session = require('cookie-session');
-// app.set('trust proxy', 1);
-// app.use(session({
-//     secret: process.env.COOKIE_SECRET,
-//     name: 'sessionId'
-// }))
-
+const session = require('cookie-session');
+app.set('trust proxy', 1);
+app.use(session({
+    secret: process.env.COOKIE_SECRET,
+    name: 'sessionId'
+}))
 
 // Gets the api documentation webpage
 app.get('/', function(req, res) {
