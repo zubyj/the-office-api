@@ -36,8 +36,8 @@ app.use(express.json())
 // sets HTTPS headers (stops cross-site scripting attacks, ensures secure (HTTPS) connection to client)
 app.use(helmet.contentSecurityPolicy({
     directives: {
-        defaultSrc: ["'self'", "www.googletagmanager.com", "www.google-analytics.com", "www.theofficescript.com"],
-        scriptSrc: ["'self'", "www.googletagmanager.com", "www.google-analytics.com", "www.theofficescript.com"],
+        connectSrc: ["www.theofficescript.com"],
+        scriptSrc: ["'self'", "www.googletagmanager.com", "www.google-analytics.com",], 
 
     }
 }));
