@@ -34,7 +34,11 @@ app.use(cors());
 // gets the request body and converts it to json, same as body-parser
 app.use(express.json())
 // sets HTTPS headers (stops cross-site scripting attacks, ensures secure (HTTPS) connection to client)
-app.use(helmet());
+app.use(helmet.contentSecurityPolicy({
+    directives: {
+        scriptSrc: ["'self'", "googletagmanager.com"],
+    }
+}));
 // Serves static assets from given folder
 app.use(express.static('docs-website/dist'));
 // Applies rate limit to all requests

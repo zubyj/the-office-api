@@ -24,7 +24,6 @@
         <h2 id="description">REST API for getting lines from NBC's "The Office"</h2>
 
         <RequestForm /> 
-        
 
         <!-- Ask the script -->
         <div id="ask_question">
