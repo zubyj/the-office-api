@@ -36,7 +36,7 @@ app.use(express.json())
 // sets HTTPS headers (stops cross-site scripting attacks, ensures secure (HTTPS) connection to client)
 app.use(helmet.contentSecurityPolicy({
     directives: {
-        scriptSrc: ["'self'", "www.googletagmanager.com", "www.google-analytics.com"],
+        scriptSrc: ["'self'", "www.googletagmanager.com", "www.google-analytics.com", "www.theofficescript.com"],
     }
 }));
 // Serves static assets from given folder

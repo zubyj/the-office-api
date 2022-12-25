@@ -1,5 +1,6 @@
 <script>
     import axios from 'axios'
+    import { event, pageview } from 'vue-gtag';
     export default {
         data() {
             return {
@@ -21,6 +22,17 @@
                         this.line = response.data.line;
                         this.response = response.data.response;
                     })
+                    .catch(err => {
+                        console.log(err);
+                    })
+
+                // Log event in google analytics
+                event('submit-api-request', {
+                    'event-category': 'documentation',
+                    'event_label': 'API request button clicked',
+                    'value': 1,
+                })
+
             }
         }
     }
