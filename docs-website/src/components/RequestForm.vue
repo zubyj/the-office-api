@@ -14,7 +14,7 @@
         methods: {
             submitRequest() {
                 axios
-                    .get('https://theofficescript.com/' + this.path)
+                    .get('https://www.theofficescript.com/' + this.path)
                     .then(response => {
                         this.season = response.data.season;
                         this.episode = response.data.episode;
