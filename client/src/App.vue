@@ -108,13 +108,6 @@ export default {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-}
-
-#appname {
-  font-size: 2rem;
-  color: var(--primary-alt);
-  margin-top: 3rem;
 }
 
 button {

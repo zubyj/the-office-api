@@ -45,7 +45,7 @@ export default {
                 https://theofficescript.com/
             </span>
 
-            <input v-model="path" id="textForm">
+            <input v-model="path" id="textForm" @keypress.enter="submitRequest">
 
             <button @click="submitRequest()" id="submitBtn">
                 Submit
@@ -53,7 +53,6 @@ export default {
         </span>
 
         <div id="responseBody">
-            Response
             <div>
                 <span class="paramName"> season </span> : {{ season }}
             </div>
