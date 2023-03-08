@@ -37,11 +37,11 @@ app.use(express.json())
 app.use(helmet.contentSecurityPolicy({
     directives: {
         connectSrc: ["https://www.theofficescript.com"],
-        scriptSrc: ["'self'", "www.googletagmanager.com", "www.google-analytics.com",], 
+        scriptSrc: ["'self'", "www.googletagmanager.com", "www.google-analytics.com",],
     }
 }));
 // Serves static assets from given folder
-app.use(express.static('docs-website/dist'));
+app.use(express.static('client/dist'));
 // Applies rate limit to all requests
 const limiter = rateLimit({
     windowsMs: 15 * 60 * 1000, // 15 minutes
@@ -65,13 +65,13 @@ app.use(session({
 }))
 
 // Gets the api documentation webpage
-app.get('/', function(req, res) {
+app.get('/', function (req, res) {
     logger.info('Open homepage');
-    res.sendFile(path.join(__dirname, 'docs-website/dist/index.html'));
-  });
+    res.sendFile(path.join(__dirname, 'client/dist/index.html'));
+});
 
 // Gets a random line
-app.get("/random", async(req, res) => {
+app.get("/random", async (req, res) => {
     logger.info('Get a random line');
     try {
         const quote = await pool.query(
@@ -94,15 +94,15 @@ app.get("/ask/:question", async (req, res) => {
     // Try full text search
     try {
         const line = await pool.query(
-             "SELECT line_id, line FROM lines WHERE ts_lines @@ to_tsquery('simple', $1) ORDER BY ts_rank(ts_lines, to_tsquery('simple', $1)) DESC LIMIT 10", [q]
-            )
+            "SELECT line_id, line FROM lines WHERE ts_lines @@ to_tsquery('simple', $1) ORDER BY ts_rank(ts_lines, to_tsquery('simple', $1)) DESC LIMIT 10", [q]
+        )
         if (line.rows.length == 0) {
             logger.warn("Full text search didnt work. Trying trigrams..")
             // Try trigrams if full-text search fails
             try {
                 const line = await pool.query(
-                // "SELECT line FROM lines WHERE levenshtein(line, $1) <= 1", [txt]
-                      "SELECT line_id, line FROM lines ORDER BY SIMILARITY(line, $1) DESC LIMIT 5", [q]
+                    // "SELECT line FROM lines WHERE levenshtein(line, $1) <= 1", [txt]
+                    "SELECT line_id, line FROM lines ORDER BY SIMILARITY(line, $1) DESC LIMIT 5", [q]
                 )
                 const lineID = line.rows[0]['line_id'] + 1;
                 try {
@@ -110,30 +110,30 @@ app.get("/ask/:question", async (req, res) => {
                         "SELECT season, episode, character, line from LINES WHERE line_id = $1", [lineID]
                     )
                     res.json(response.rows[0]);
-                } 
+                }
                 catch (err) {
                     logger.error(err);
                 }
-            } 
-            catch (err) {
-                logger.error(err);
-            }           
-        }
-        else {
-            res_id = line.rows[0]['line_id'] + 1
-        
-            try {
-                const line2 = await pool.query(
-                    "SELECT season, episode, character, line FROM lines WHERE line_id = $1", [res_id]
-                )    
-                res.json(line2.rows[0]);
-                return;
-            } 
+            }
             catch (err) {
                 logger.error(err);
             }
         }
-    } 
+        else {
+            res_id = line.rows[0]['line_id'] + 1
+
+            try {
+                const line2 = await pool.query(
+                    "SELECT season, episode, character, line FROM lines WHERE line_id = $1", [res_id]
+                )
+                res.json(line2.rows[0]);
+                return;
+            }
+            catch (err) {
+                logger.error(err);
+            }
+        }
+    }
     catch (err) {
         logger.error(err);
     }
@@ -155,14 +155,14 @@ app.get("/characters/:character/ask/:question", async (req, res) => {
             // Try trigrams if full-text search fails
             logger.warn('Full text search doesnt work. Trying trigrams');
             try {
-                var query = "SELECT season, episode, response FROM " +  tableName + " ORDER BY SIMILARITY(line, $1) DESC LIMIT 5"
+                var query = "SELECT season, episode, response FROM " + tableName + " ORDER BY SIMILARITY(line, $1) DESC LIMIT 5"
                 const line = await pool.query(query, [q]);
                 res.json(line.rows[0]);
             }
             catch (err) {
                 logger.error(err);
             }
-        } 
+        }
         else {
             res.json(response.rows[0]);
         }
@@ -176,7 +176,7 @@ app.get("/characters/:character/ask/:question", async (req, res) => {
 app.get("/seasons/:season/random", async (req, res) => {
     logger.info('Get script from random season and episode');
     try {
-        const {season} = req.params;
+        const { season } = req.params;
         const script = await pool.query("SELECT character, line FROM lines WHERE season = $1 OFFSET floor(random() * (SELECT COUNT(*) FROM lines WHERE season = $1))",
             [season]
         )
@@ -185,7 +185,7 @@ app.get("/seasons/:season/random", async (req, res) => {
     catch (err) {
         logger.error(err);
     }
-}) 
+})
 
 // Gets script from given episode
 // app.get("/seasons/:season/episodes/:episode", async(req, res) => {
@@ -200,7 +200,7 @@ app.get("/seasons/:season/random", async (req, res) => {
 // })
 
 // Gets a random quote from given season
-app.get("/seasons/:season/random", async(req, res) => {
+app.get("/seasons/:season/random", async (req, res) => {
     try {
         const { season } = req.params;
         const seasonNum = parseInt(season);
@@ -216,7 +216,7 @@ app.get("/seasons/:season/random", async(req, res) => {
 })
 
 // Gets a random quote from a random character given season and episode
-app.get("/seasons/:season/episodes/:episode/random", async(req, res) => {
+app.get("/seasons/:season/episodes/:episode/random", async (req, res) => {
     logger.info('Get random quote from random character given season and episode');
     try {
         const { season, episode } = req.params;
@@ -234,7 +234,7 @@ app.get("/seasons/:season/episodes/:episode/random", async(req, res) => {
 })
 
 // Gets a random quote from given character
-app.get("/characters/:character/random", async(req, res) => {
+app.get("/characters/:character/random", async (req, res) => {
     logger.info('Get random quote from given character');
     try {
         const { character } = req.params;
@@ -251,7 +251,7 @@ app.get("/characters/:character/random", async(req, res) => {
 })
 
 // Gets a random quote from given season and character
-app.get("/seasons/:season/characters/:character/random", async(req, res) => {
+app.get("/seasons/:season/characters/:character/random", async (req, res) => {
     logger.info('Get random quote from given season and character');
     try {
         const { season, character } = req.params;
@@ -269,7 +269,7 @@ app.get("/seasons/:season/characters/:character/random", async(req, res) => {
 })
 
 // Gets random quote from given season, episode, and character
-app.get("/seasons/:season/episodes/:episode/characters/:character/random", async(req, res) => {
+app.get("/seasons/:season/episodes/:episode/characters/:character/random", async (req, res) => {
     logger.info('Get random quote from given season, episode, and character');
     try {
         const { season, episode, character } = req.params;
@@ -288,16 +288,16 @@ app.get("/seasons/:season/episodes/:episode/characters/:character/random", async
 })
 
 // Gets every line for given character, season, and episode
-app.get("/seasons/:season/episodes/:episode/characters/:character", async(req, res) => {
+app.get("/seasons/:season/episodes/:episode/characters/:character", async (req, res) => {
     logger.info('Get every line from given character, season, and episode');
     try {
         const { season, episode, character } = req.params;
         const characterName = character.charAt(0).toUpperCase() + character.slice(1);
         const script = await pool.query("SELECT line FROM lines WHERE season = $1 AND episode = $2 AND character = $3"
-        , [season, episode, characterName])
+            , [season, episode, characterName])
         res.json(script.rows);
     }
-    catch(err) {
+    catch (err) {
         logger.error(err);
     }
 })
