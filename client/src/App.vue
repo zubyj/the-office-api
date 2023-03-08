@@ -10,7 +10,7 @@
   export default {
     mounted() {
       event('pageview', { method: 'Homepage'});
-      pageview('/');
+      pageview('/'); 
     }
   }
 </script>

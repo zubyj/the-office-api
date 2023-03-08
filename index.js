@@ -38,7 +38,6 @@ app.use(helmet.contentSecurityPolicy({
     directives: {
         connectSrc: ["https://www.theofficescript.com"],
         scriptSrc: ["'self'", "www.googletagmanager.com", "www.google-analytics.com",], 
-
     }
 }));
 // Serves static assets from given folder
