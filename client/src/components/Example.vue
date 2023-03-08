@@ -47,7 +47,6 @@ defineProps({
 <style scoped>
 .example {
   color: var(--light);
-  border: 1px solid var(--light);
   border-radius: 15px;
   padding: 1.5rem;
   width: 45rem;
@@ -63,7 +62,6 @@ defineProps({
   color: var(--light);
   background-color: black;
   padding: 1rem;
-  border-radius: 10px;
   border: 1px solid white;
 }
 

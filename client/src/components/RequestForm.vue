@@ -70,6 +70,10 @@ export default {
 </template>
 
 <style scoped>
+input {
+    font-size: 1rem;
+}
+
 .body {
     margin-top: 3rem;
     border-radius: 20px;
@@ -89,13 +93,15 @@ export default {
 
 #textForm {
     width: 40%;
-    padding: .25rem;
+    padding: .5rem;
 }
 
 #submitBtn {
-    color: white;
+    color: antiquewhite;
     border: 1px solid white;
-    padding: .25rem;
+    padding: .5rem;
+    font-weight: bold;
+    font-size: 1rem;
 }
 
 #submitBtn:hover {
