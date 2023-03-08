@@ -21,7 +21,6 @@ export default {
     <Sidebar />
     <main>
       <img src="./assets/the-office-api-logo.jpg" width="400" />
-      <!-- <h1 id="appname">The Office API</h1> -->
       <h2 id="description">REST API for getting lines from NBC's " The Office"</h2>
       <RequestForm />
 
@@ -109,7 +108,7 @@ export default {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Fira sans', sans-serif;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
 #appname {
