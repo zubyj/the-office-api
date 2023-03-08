@@ -45,7 +45,7 @@ export default {
                 https://theofficescript.com/
             </span>
 
-            <input v-model="path" id="textForm" @keypress.enter="submitRequest">
+            <input v-model="path" id="textForm" @keypress.enter="submitRequest" autofocus>
 
             <button @click="submitRequest()" id="submitBtn">
                 Submit
