@@ -1,0 +1,7 @@
+{
+    "name": "the-office-script-api",
+    "version": "1.0.0",
+    "scripts": {
+        "postInstall": "npm install --prefix server && npm install --prefix client"
+    }
+}
