@@ -63,7 +63,7 @@ app.use(session({
 // Gets the website with API documentation
 app.get('/', function (req, res) {
     logger.info('Open homepage');
-    res.sendFile(path.join(__dirname, 'client/dist/index.html'));
+    res.sendFile(path.join(__dirname, '../client/dist/index.html'));
 });
 
 // Gets a random line
