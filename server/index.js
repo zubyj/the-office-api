@@ -10,8 +10,8 @@ const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
 
 // logger
-const buildDevLogger = require('./logger/dev-logger');
-const buildProdLogger = require('./logger/prod-logger');
+const buildDevLogger = require('../logger/dev-logger');
+const buildProdLogger = require('../logger/prod-logger');
 
 require('dotenv').config()
 const PORT = process.env.PORT;
@@ -27,12 +27,9 @@ else {
 }
 
 // Middleware 
-// Add compression for faster performance
-app.use(compression())
-// lets server get requests from localhost
-app.use(cors());
-// gets the request body and converts it to json, same as body-parser
-app.use(express.json())
+app.use(compression())  // Add compression for faster performance
+app.use(cors());  // lets server get requests from localhost
+app.use(express.json()) // gets the request body and converts it to json, same as body-parser
 // sets HTTPS headers (stops cross-site scripting attacks, ensures secure (HTTPS) connection to client)
 app.use(helmet.contentSecurityPolicy({
     directives: {
@@ -40,8 +37,7 @@ app.use(helmet.contentSecurityPolicy({
         scriptSrc: ["'self'", "www.googletagmanager.com", "www.google-analytics.com",],
     }
 }));
-// Serves static assets from given folder
-app.use(express.static('client/dist'));
+app.use(express.static('../client/dist')); // Serves static assets from given folder
 // Applies rate limit to all requests
 const limiter = rateLimit({
     windowsMs: 15 * 60 * 1000, // 15 minutes
@@ -64,7 +60,7 @@ app.use(session({
     name: 'sessionId'
 }))
 
-// Gets the api documentation webpage
+// Gets the website with API documentation
 app.get('/', function (req, res) {
     logger.info('Open homepage');
     res.sendFile(path.join(__dirname, 'client/dist/index.html'));
