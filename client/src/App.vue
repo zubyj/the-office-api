@@ -134,24 +134,19 @@ button {
 
 .app {
   display: flex;
-  width: 30rem;
+  width: 100vw;
 
   main {
     flex: 1 1 0;
-    width: 100%;
+    width: 25vw;
 
     @media (max-width: 1024px) {}
   }
 }
 
 @media (min-width: 1024px) {
-  #appname {
-    font-size: 3rem;
-  }
-
   .app {
-    margin-left: 8rem;
-    width: 100%;
+    width: 600px;
   }
 }
 </style>
