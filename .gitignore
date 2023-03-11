@@ -1,3 +1,9 @@
+# Custom gitignores
+.DS_Store
+
+
+# Generated  gitignores
+
 # Logs
 logs
 *.log
