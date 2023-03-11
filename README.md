@@ -1,8 +1,9 @@
-# The Office API
-
-REST API for getting lines and chatting with characters from NBC's, "The Office"
+<img src="./client/src/assets/the-office-api-logo.jpg" width="700"/>
 
 # Try it out at [theofficescript.com](https://theofficescript.com)
+
+### REST API for getting lines and chatting with characters from NBC's, "The Office"
+
 
 ## Frontend (client folder)
 
@@ -21,6 +22,16 @@ VueJS web app used to document the API
 ## Technologies
 
 ExpressJS, VueJS, PostgreSQL, AWS RDS, Heroku, Google Domains
-## Inspiration
+## What I did
 
-I found a JSON of the entire office script. I added it to a Postgres database and included the season, episode, line, and character. I then migrated the database onto AWS RDS using 
+1. Found JSON of the entire office script. Extracted season, episode, character, line, and id. 
+
+2. Added the script to PostgreSQL database with JSON parameters as columns
+
+3. Migrated the database onto AWS RDS using MySQL workbench. Using the free tier
+
+4. Created an ExpressJS server which listens for GET requests and responds with lines from the show as a JSON object. Used full text search to let users chat with characters from the show. 
+
+5. Created a VueJS website to document the API. 
+
+6. Bought the domain, [theofficescript.com](https://theofficescript.com) to serve my REST API. Also serving the javascript index.html file from the  VueJS web app build using ExpressJS
