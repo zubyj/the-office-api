@@ -9,12 +9,13 @@ const cors = require("cors");
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
 
-// logger
-const buildDevLogger = require('../logger/dev-logger');
-const buildProdLogger = require('../logger/prod-logger');
+// loggers
+const buildDevLogger = require('./logger/dev-logger');
+const buildProdLogger = require('./logger/prod-logger');
 
 require('dotenv').config()
 const PORT = process.env.PORT;
+
 
 // Initialize logger
 let logger = null;
