@@ -93,6 +93,8 @@ input {
     border-radius: 20px;
     padding: 2rem;
     background-color: black;
+    /* wrap overflow */
+    overflow: auto;
 }
 
 #loadingTitle {

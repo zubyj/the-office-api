@@ -21,7 +21,7 @@ export default {
     <Sidebar />
     <main>
       <div id="title">
-        <img src="./assets/the-office-api-logo.jpg" width="500" />
+        <img src="./assets/the-office-api-logo.jpg" width="400" id="title_img" />
         <h2 id="description">REST API for getting lines from NBC's " The Office"</h2>
       </div>
       <RequestForm />
@@ -128,6 +128,10 @@ button {
   justify-content: center;
   text-align: center;
   margin-bottom: 2rem;
+}
+
+#title_img {
+  width: 100%;
 }
 
 .example {
