@@ -4,6 +4,7 @@ import { event, pageview } from 'vue-gtag';
 export default {
     data() {
         return {
+            loading: false,
             path: 'random',
             season: '5',
             episode: '12',
@@ -13,6 +14,7 @@ export default {
     },
     methods: {
         submitRequest() {
+            this.isLoading(true); // Show loading spinner
             axios
                 .get('https://www.theofficescript.com/' + this.path)
                 .then(response => {
@@ -25,14 +27,18 @@ export default {
                 .catch(err => {
                     console.log(err);
                 })
-
+                .finally(() => {
+                    this.isLoading(false);
+                });
             // Log event in google analytics
             event('submit-api-request', {
                 'event-category': 'documentation',
                 'event_label': 'API request button clicked',
                 'value': 1,
             })
-
+        },
+        isLoading(status) {
+            this.loading = status;
         }
     }
 }
@@ -40,6 +46,12 @@ export default {
 
 <template>
     <div class="body">
+        <h2 id="title">
+            <div v-if="loading" id="loadingTitle">Awaiting API Response</div>
+            <div v-else>
+                Make an API Request
+            </div>
+        </h2>
         <span id="request">
             <span id="url">
                 https://theofficescript.com/
@@ -74,7 +86,6 @@ export default {
 <style scoped>
 input {
     font-size: 1rem;
-
 }
 
 .body {
@@ -84,9 +95,18 @@ input {
     background-color: black;
 }
 
+#loadingTitle {
+    color: var(--primary);
+}
+
 #request {
     padding: .5rem;
     margin-top: 5rem;
+}
+
+#responseBody {
+    margin-top: 5rem;
+    color: var(--light);
 }
 
 #url {
@@ -104,9 +124,13 @@ input {
     border-radius: 10px;
 }
 
-/* Submit Button Hover Effect */
-@import url("https://fonts.googleapis.com/css?family=Montserrat");
-
+/* Submit Button with Hover Effect */
+#submitBtn {
+    color: var(--primary);
+    padding: .5rem;
+    margin-left: 5rem;
+    padding-bottom: .25rem;
+}
 
 a {
     position: absolute;
@@ -165,20 +189,6 @@ a:hover::before {
 a:hover::after {
     right: 0;
     transition: right 0.3s 0.2s cubic-bezier(0.1, 0, 0.1, 1);
-}
-
-
-#submitBtn {
-    color: var(--primary);
-    padding: .5rem;
-    font-size: 1rem;
-    margin-left: 5rem;
-    padding-bottom: .25rem;
-}
-
-#submitBtn:hover {
-    color: black;
-    color: var(--primary-alt)
 }
 
 #responseBody {

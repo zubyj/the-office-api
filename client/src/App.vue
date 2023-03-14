@@ -20,8 +20,10 @@ export default {
     <!-- Sidebar Navigation -->
     <Sidebar />
     <main>
-      <img src="./assets/the-office-api-logo.jpg" width="400" />
-      <h2 id="description">REST API for getting lines from NBC's " The Office"</h2>
+      <div id="title">
+        <img src="./assets/the-office-api-logo.jpg" width="500" />
+        <h2 id="description">REST API for getting lines from NBC's " The Office"</h2>
+      </div>
       <RequestForm />
 
       <!-- Ask the script -->
@@ -116,6 +118,16 @@ button {
   border: none;
   outline: none;
   background: none;
+}
+
+/* Center the title and description */
+#title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin-bottom: 2rem;
 }
 
 .example {
