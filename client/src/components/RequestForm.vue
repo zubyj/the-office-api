@@ -49,7 +49,7 @@ export default {
 
             <button @click="submitRequest()" id="submitBtn">
                 <a>
-                    Submit
+                    Get Response
                 </a>
             </button>
         </span>
