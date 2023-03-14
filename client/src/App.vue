@@ -125,6 +125,7 @@ button {
 #description,
 #disclaimer {
   color: lightblue;
+  padding-top: 1rem;
 }
 
 #characterNames {
@@ -134,7 +135,6 @@ button {
 
 .app {
   display: flex;
-  width: 100vw;
 
   main {
     flex: 1 1 0;
@@ -146,7 +146,7 @@ button {
 
 @media (min-width: 1024px) {
   .app {
-    width: 600px;
+    width: 100%;
   }
 }
 </style>
