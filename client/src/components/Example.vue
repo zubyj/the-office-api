@@ -47,10 +47,14 @@ defineProps({
 <style scoped>
 .example {
   color: var(--light);
-  border-radius: 15px;
   padding: 1.5rem;
-  max-width: 100vw;
   background-color: var(--dark);
+}
+
+.header {
+  color: var(--primary-alt);
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 }
 
 #requestDiv {
@@ -63,15 +67,10 @@ defineProps({
   background-color: black;
   padding: 1rem;
   border: 1px solid white;
+  white-space: nowrap;
 }
 
 #request:hover {
   color: var(--primary-alt)
-}
-
-.header {
-  color: var(--primary-alt);
-  padding-top: 1rem;
-  padding-bottom: 1rem;
 }
 </style>
