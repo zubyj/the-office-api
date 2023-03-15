@@ -52,19 +52,19 @@ export default {
                 Make an API Request
             </div>
         </h2>
-        <span id="request">
-            <span id="url">
-                https://theofficescript.com/
-            </span>
-
-            <input v-model="path" id="textForm" @keypress.enter="submitRequest" autofocus>
-
+        <div class="container">
+            <div>
+                <span id="request">
+                    <span id="url">
+                        https://theofficescript.com/
+                    </span>
+                    <input v-model="path" id="textForm" @keypress.enter="submitRequest" autofocus>
+                </span>
+            </div>
             <button @click="submitRequest()" id="submitBtn">
-                <a>
-                    Get Response
-                </a>
+                <a>Get Response</a>
             </button>
-        </span>
+        </div>
 
         <div id="responseBody">
             <div>
@@ -89,40 +89,60 @@ input {
 }
 
 .body {
-    margin-top: 3rem;
-    border-radius: 20px;
+    margin-top: 1rem;
+    border-radius: 10px;
     padding: 1rem;
     background-color: black;
     max-width: 100vw;
+    margin-top: 5rem;
 }
 
 #loadingTitle {
-    color: var(--primary);
+    color: var(--primary-alt);
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 #request {
+    display: flex;
+    align-items: center;
+    margin-right: 1rem;
     padding: .5rem;
-    margin-top: 5rem;
-}
-
-#responseBody {
-    margin-top: 5rem;
-    color: var(--light);
+    margin-top: 2rem;
 }
 
 #url {
-    padding: .25rem;
     color: var(--light);
-    font-size: 1.25rem;
+    font-weight: bold;
+    margin-right: 0.5rem;
 }
 
 #textForm {
-    width: 40%;
-    padding: .5rem;
-    background-color: black;
-    color: white;
     border: 1px solid white;
+    background-color: transparent;
+    color: var(--light);
+    margin-left: 0.5rem;
+    padding: .25rem;
     border-radius: 10px;
+    min-width: 20rem;
+    max-width: 100vw;
+}
+
+#submitBtn {
+    margin-top: 1rem;
+    background-color: black;
+    border: none;
+    color: var(--light);
+    padding: 1rem;
+    margin-top: 2rem;
+}
+
+#submitBtn:hover {
+    color: var(--primary-alt);
 }
 
 /* Submit Button with Hover Effect */
@@ -140,7 +160,7 @@ a {
     transform: translate(-50%, -50%);
     color: #cecd24;
     text-decoration: none;
-    font-size: 1rem;
+    font-size: .8rem;
     display: inline-block;
     font-family: Montserrat;
     text-transform: uppercase;
@@ -194,6 +214,7 @@ a:hover::after {
 
 #responseBody {
     margin-top: 2rem;
+    color: var(--light);
 }
 
 .paramName {

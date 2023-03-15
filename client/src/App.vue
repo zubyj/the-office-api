@@ -127,7 +127,6 @@ button {
   align-items: center;
   justify-content: center;
   text-align: center;
-  margin-bottom: 2rem;
 }
 
 #title_img {
