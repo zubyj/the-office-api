@@ -1,11 +1,12 @@
 <script>
-import axios from 'axios'
+import axios, { isAxiosError } from 'axios'
 import { event, pageview } from 'vue-gtag';
 
 export default {
     data() {
         return {
             loading: false,
+            error: false,
             path: 'random',
             season: '5',
             episode: '12',
@@ -24,10 +25,13 @@ export default {
                     this.character = response.data.character;
                     this.line = response.data.line;
                     this.response = response.data.response;
+                    this.isError(false);
                 })
                 .catch(err => {
                     console.log(err);
+                    this.isError(true)
                 })
+                /* On success, show response in console */
                 .finally(() => {
                     this.isLoading(false);
                 });
@@ -40,7 +44,11 @@ export default {
         },
         isLoading(status) {
             this.loading = status;
+        },
+        isError(status) {
+            this.error = status;
         }
+
     },
 }
 </script>
@@ -48,9 +56,16 @@ export default {
 <template>
     <div class="body">
         <h2 class="title">
-            <div v-if="loading" id="loadingTitle">Awaiting API Response</div>
+            <div v-if="loading" id="loadingMsg">Awaiting API Response
+
+            </div>
             <div v-else>
-                Try an API request
+                <div v-if="error" id="errorMsg">
+                    Invalid request. Try again.
+                </div>
+                <div v-else>
+                    Try an API request
+                </div>
             </div>
         </h2>
         <div class="container">
@@ -98,8 +113,12 @@ input {
     margin-top: 5rem;
 }
 
-#loadingTitle {
+#loadingMsg {
     color: var(--primary-alt);
+}
+
+#errorMsg {
+    color: #ff0033;
 }
 
 .container {
