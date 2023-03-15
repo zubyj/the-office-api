@@ -83,12 +83,12 @@ export default {
                         https://theofficescript.com/
                     </span>
                     <input v-model="path" id="textForm" @keypress.enter="submitRequest" autofocus>
+                </span>
             </div>
             <button @click="submitRequest()" id="submitBtn">
                 <a>Get Response</a>
             </button>
         </div>
-        </span>
         <!-- API Response -->
         <div id="responseBody">
             <div>
