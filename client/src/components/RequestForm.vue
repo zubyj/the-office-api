@@ -46,10 +46,10 @@ export default {
 
 <template>
     <div class="body">
-        <h2 id="title">
+        <h2 class="title">
             <div v-if="loading" id="loadingTitle">Awaiting API Response</div>
             <div v-else>
-                Make an API Request
+                Try an API request
             </div>
         </h2>
         <div class="container">

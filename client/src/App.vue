@@ -20,11 +20,13 @@ export default {
     <!-- Sidebar Navigation -->
     <Sidebar />
     <main>
-      <div id="title">
+      <div class="title">
         <img src="./assets/the-office-api-logo.jpg" width="400" id="title_img" />
         <h2 id="description">REST API for getting lines from NBC's " The Office"</h2>
       </div>
       <RequestForm />
+
+      <h1 class="title" id="docsTitle">API Documentation</h1>
 
       <!-- Ask the script -->
       <div id="ask_question">
@@ -121,12 +123,18 @@ button {
 }
 
 /* Center the title and description */
-#title {
+.title {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
+}
+
+#docsTitle {
+  padding-top: 3rem;
+  color: var(--primary);
+  font-size: 2rem;
 }
 
 #title_img {

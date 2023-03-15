@@ -21,52 +21,47 @@ defineProps({
 
 <template>
   <div class="endpoint">
-    <h2 id="name">{{name}}</h2>
+    <h2 id="name">{{ name }}</h2>
     <span id="method">
-        GET
-        <span id="path">https://theofficescript.com{{path}}</span>
+      GET
+      <span id="path">https://theofficescript.com{{ path }}</span>
     </span>
 
     <div class="description">
-        {{description}}
+      {{ description }}
     </div>
 
     <h3 v-if="parameters" id="paramTitle">Arguments</h3>
     <div v-for="(item, key) in parameters">
-      <span id="paramName">{{key}} : </span> 
+      <span id="paramName">{{ key }} : </span>
       <span id="paramDescription">
-        {{item}}
+        {{ item }}
       </span>
     </div>
-
-    <!-- <div v-for="param in parameters" id="parameterTitle">
-      {{param}}
-    </div> -->
   </div>
 </template>
 
 <style scoped>
-
 .endpoint {
-  border-top: 1px solid var(--light);
-  padding-top: 5rem;
-  margin-top: 6rem;
+  margin-top: 3rem;
   margin-bottom: 4rem;
+  border-top: 1px solid var(--light);
+  padding-top: 2rem;
 }
 
 #name {
-    color: #ffd700;
-    margin-bottom: 1rem;
+  color: #ffd700;
+  margin-bottom: 1rem;
 }
 
 #method {
-    color: var(--primary-alt);
-    
+  color: var(--primary-alt);
+
 }
 
 #path {
-    color: var(--light);
-    padding: .5rem;
+  color: var(--light);
+  padding: .5rem;
 }
 
 #paramTitle {
@@ -74,7 +69,7 @@ defineProps({
   color: var(--light);
   text-decoration: underline;
   padding-bottom: 1rem;
-  
+
 }
 
 #paramName {
@@ -84,5 +79,4 @@ defineProps({
 #paramDescription {
   color: var(--light)
 }
-
 </style>

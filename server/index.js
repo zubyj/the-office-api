@@ -16,7 +16,6 @@ const buildProdLogger = require('./logger/prod-logger');
 require('dotenv').config()
 const PORT = process.env.PORT;
 
-
 // Initialize logger
 let logger = null;
 if (process.env.NODE_ENV === 'development') {
