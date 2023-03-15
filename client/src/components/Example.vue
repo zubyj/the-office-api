@@ -49,6 +49,7 @@ defineProps({
   color: var(--light);
   padding: 1.5rem;
   background-color: var(--dark);
+  margin-bottom: 5rem;
 }
 
 .header {

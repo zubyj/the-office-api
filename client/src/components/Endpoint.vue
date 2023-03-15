@@ -31,7 +31,7 @@ defineProps({
       {{ description }}
     </div>
 
-    <h3 v-if="parameters" id="paramTitle">Arguments</h3>
+    <h3 v-if="parameters" id="paramTitle">Arguments/Parameters</h3>
     <div v-for="(item, key) in parameters">
       <span id="paramName">{{ key }} : </span>
       <span id="paramDescription">
@@ -51,12 +51,14 @@ defineProps({
 
 #name {
   color: #ffd700;
-  margin-bottom: 1rem;
+  margin-bottom: 3rem;
 }
 
 #method {
   color: var(--primary-alt);
-
+  border: 1px solid var(--dark);
+  padding: .5rem;
+  border-radius: 5px;
 }
 
 #path {
@@ -67,9 +69,7 @@ defineProps({
 #paramTitle {
   padding-top: 1rem;
   color: var(--light);
-  text-decoration: underline;
   padding-bottom: 1rem;
-
 }
 
 #paramName {
