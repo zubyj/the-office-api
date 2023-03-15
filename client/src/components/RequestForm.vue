@@ -1,3 +1,8 @@
+<!-- This VueJS component provides a user interface for making API requests and displaying the response.
+     The user inputs a path to an API endpoint, and the component sends a GET request to the endpoint using the axios library.
+     The response is then displayed in the UI.
+     The component also handles loading and error states, and logs events to Google Analytics. -->
+
 <script>
 import axios, { isAxiosError } from 'axios'
 import { event, pageview } from 'vue-gtag';
@@ -5,9 +10,9 @@ import { event, pageview } from 'vue-gtag';
 export default {
     data() {
         return {
-            loading: false,
-            error: false,
-            path: 'random',
+            loading: false, // A boolean value indicating whether the component is waiting for a 
+            error: false, // A boolean value indicating whether the most recent API request resulted in an error
+            path: 'random', // The path to the API endpoint
             season: '5',
             episode: '12',
             character: 'Michael',
@@ -17,6 +22,7 @@ export default {
     methods: {
         submitRequest() {
             this.isLoading(true); // Show loading spinner
+            // Send GET request to the API endpoint
             axios
                 .get('https://www.theofficescript.com/' + this.path)
                 .then(response => {
@@ -54,10 +60,11 @@ export default {
 </script>
 
 <template>
+    <!-- The UI elements are rendered based on the loading and error states -->
     <div class="body">
+        <!-- Message displayed to user -->
         <h2 class="title">
             <div v-if="loading" id="loadingMsg">Awaiting API Response
-
             </div>
             <div v-else>
                 <div v-if="error" id="errorMsg">
@@ -68,6 +75,7 @@ export default {
                 </div>
             </div>
         </h2>
+        <!-- API Request Text Form -->
         <div class="container">
             <div>
                 <span id="request">
@@ -75,13 +83,13 @@ export default {
                         https://theofficescript.com/
                     </span>
                     <input v-model="path" id="textForm" @keypress.enter="submitRequest" autofocus>
-                </span>
             </div>
             <button @click="submitRequest()" id="submitBtn">
                 <a>Get Response</a>
             </button>
         </div>
-
+        </span>
+        <!-- API Response -->
         <div id="responseBody">
             <div>
                 <span class="paramName"> season </span> : {{ season }}
