@@ -53,8 +53,12 @@ export default {
         },
         isError(status) {
             this.error = status;
-        }
-
+        },
+        // Returns true if user is on a mobile device
+        isMobile() {
+            const userAgent = navigator.userAgent.toLowerCase();
+            return /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
+        },
     },
 }
 </script>
@@ -82,7 +86,7 @@ export default {
                     <span id="url">
                         https://theofficescript.com/
                     </span>
-                    <input v-model="path" id="textForm" @keypress.enter="submitRequest" autofocus>
+                    <input v-model="path" id="textForm" @keypress.enter="submitRequest" :autofocus="!isMobile()">
                 </span>
             </div>
             <button @click="submitRequest()" id="submitBtn">
