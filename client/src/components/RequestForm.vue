@@ -1,6 +1,7 @@
 <script>
 import axios from 'axios'
 import { event, pageview } from 'vue-gtag';
+
 export default {
     data() {
         return {
@@ -40,7 +41,7 @@ export default {
         isLoading(status) {
             this.loading = status;
         }
-    }
+    },
 }
 </script>
 
@@ -110,14 +111,12 @@ input {
 #request {
     display: flex;
     align-items: center;
-    margin-right: 1rem;
     padding: .5rem;
     margin-top: 2rem;
 }
 
 #url {
     color: var(--light);
-    font-weight: bold;
     margin-right: 0.5rem;
 }
 
@@ -125,11 +124,9 @@ input {
     border: 1px solid white;
     background-color: transparent;
     color: var(--light);
-    margin-left: 0.5rem;
     padding: .25rem;
-    border-radius: 10px;
-    min-width: 20rem;
-    max-width: 100vw;
+    border-radius: 5px;
+    width: 100%;
 }
 
 #submitBtn {
@@ -219,5 +216,11 @@ a:hover::after {
 
 .paramName {
     color: var(--primary);
+}
+
+@media (min-width: 1024px) {
+    #textForm {
+        width: 350px;
+    }
 }
 </style>
