@@ -91,10 +91,9 @@ input {
 .body {
     margin-top: 3rem;
     border-radius: 20px;
-    padding: 2rem;
+    padding: 1rem;
     background-color: black;
-    /* wrap overflow */
-    overflow: auto;
+    max-width: 100vw;
 }
 
 #loadingTitle {
@@ -195,7 +194,6 @@ a:hover::after {
 
 #responseBody {
     margin-top: 2rem;
-    width: 35rem;
 }
 
 .paramName {

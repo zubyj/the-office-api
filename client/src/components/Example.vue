@@ -49,7 +49,7 @@ defineProps({
   color: var(--light);
   border-radius: 15px;
   padding: 1.5rem;
-  width: 45rem;
+  max-width: 100vw;
   background-color: var(--dark);
 }
 
