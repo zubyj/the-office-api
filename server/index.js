@@ -19,7 +19,6 @@ const GA_MEASUREMENT_ID = process.env.GA_MEASUREMENT_ID;
 async function sendAnalyticsEvent(event) {
     try {
         const payload = {
-            ...params,
             app_name: 'theofficescript',
             app_version: '1.0.0',
             event_name: event,
@@ -56,7 +55,7 @@ app.use(helmet.contentSecurityPolicy({
         scriptSrc: ["'self'", "www.googletagmanager.com", "www.google-analytics.com",],
     }
 }));
-app.use(express.static('../client/dist')); // Serves static assets from given folder
+app.use(express.static('../client/dist')); // Get the static web files from the client folder
 // Applies rate limit to all requests
 const limiter = rateLimit({
     windowsMs: 15 * 60 * 1000, // 15 minutes
@@ -67,9 +66,8 @@ const limiter = rateLimit({
 app.use(limiter)
 
 /*
+Set up cookie session
 Avoids using default sesson cookie name
-Sets cookie security options
-https://expressjs.com/en/advanced/best-practice-security.html#use-helmet
 Under set cookie security options, set httponly to true, and domain
 */
 const session = require('cookie-session');
@@ -82,13 +80,13 @@ app.use(session({
 // Gets the website with API documentation
 app.get('/', function (req, res) {
     logger.info('Open homepage');
+    sendAnalyticsEvent('open_homepage');
     res.sendFile(path.join(__dirname, '../client/dist/index.html'));
 });
 
 // Gets a random line
 app.get("/random", async (req, res) => {
     logger.info('Get a random line');
-    sendAnalyticsEvent('random', 'GET');
     try {
         const quote = await pool.query(
             "SELECT season, episode, character, line FROM lines OFFSET floor(random() * (SELECT COUNT(*) FROM lines))"
