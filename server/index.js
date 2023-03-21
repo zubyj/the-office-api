@@ -31,7 +31,6 @@ async function sendAnalyticsEvent(event) {
     }
 }
 
-require('dotenv').config()
 const PORT = process.env.PORT;
 
 // Initialize logger
@@ -118,10 +117,6 @@ app.get("/seasons/:season/random", async (req, res) => {
 //         console.error(err);
 //     }
 // })
-
-
-
-
 
 // Gets every line for given character, season, and episode
 app.get("/seasons/:season/episodes/:episode/characters/:character", async (req, res) => {
