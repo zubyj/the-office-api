@@ -85,18 +85,9 @@ app.get('/', function (req, res) {
 });
 
 // Gets a random line
-app.get("/random", async (req, res) => {
-    logger.info('Get a random line');
-    try {
-        const quote = await pool.query(
-            "SELECT season, episode, character, line FROM lines OFFSET floor(random() * (SELECT COUNT(*) FROM lines))"
-        )
-        res.json(quote.rows[0]);
-    }
-    catch (err) {
-        logger.error(err);
-    }
-})
+const randomRoutes = require('./routes/random');
+app.use(randomRoutes)
+
 
 // Get a response given user text
 app.get("/ask/:question", async (req, res) => {
