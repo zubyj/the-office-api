@@ -4,16 +4,16 @@ const app = express()
 const pool = require('./db');
 const compression = require('compression');
 
-// middleware 
+// import middlewares
 const cors = require("cors");
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
 
-// loggers
+// import routes
 const buildDevLogger = require('./logger/dev-logger');
 const buildProdLogger = require('./logger/prod-logger');
 
-// analytics
+// import google analytics
 const sendAnalyticsEvent = require('./middlewares/analytics');
 
 const PORT = process.env.PORT;
@@ -28,7 +28,7 @@ else {
     logger = buildProdLogger();
 }
 
-// Middleware 
+// middleware 
 app.use(compression())  // Add compression for faster performance
 app.use(cors());  // lets server get requests from localhost
 app.use(express.json()) // gets the request body and converts it to json, same as body-parser
@@ -80,22 +80,8 @@ app.use(askRoutes);
 const characterRoutes = require('./routes/character');
 app.use(characterRoutes);
 
-// Gets script for random episode from given season
-app.get("/seasons/:season/random", async (req, res) => {
-    logger.info('Get script from random season and episode');
-    try {
-        const { season } = req.params;
-        const script = await pool.query("SELECT character, line FROM lines WHERE season = $1 OFFSET floor(random() * (SELECT COUNT(*) FROM lines WHERE season = $1))",
-            [season]
-        )
-        res.json(script.rows)
-    }
-    catch (err) {
-        logger.error(err);
-    }
-})
-
 // Gets script from given episode
+// might not add because its too much data
 // app.get("/seasons/:season/episodes/:episode", async(req, res) => {
 //     try {
 //         const { season, episode } = req.params;
