@@ -104,4 +104,19 @@ router.get("/seasons/:season/episodes/:episode/characters/:character/random", as
     }
 })
 
+// Gets a random line from random episode in given season
+router.get("/seasons/:season/random", async (req, res) => {
+    console.log('Get script from random season and episode');
+    try {
+        const { season } = req.params;
+        const script = await pool.query("SELECT character, line FROM lines WHERE season = $1 OFFSET floor(random() * (SELECT COUNT(*) FROM lines WHERE season = $1))",
+            [season]
+        )
+        res.json(script.rows)
+    }
+    catch (err) {
+        console.log(err);
+    }
+})
+
 module.exports = router;

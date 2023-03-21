@@ -4,7 +4,7 @@ const app = express()
 const pool = require('./db');
 const compression = require('compression');
 
-// middleware imports
+// middleware 
 const cors = require("cors");
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
@@ -13,27 +13,12 @@ const rateLimit = require("express-rate-limit");
 const buildDevLogger = require('./logger/dev-logger');
 const buildProdLogger = require('./logger/prod-logger');
 
-// Google Analytics
-const axios = require('axios');
-const GA_MEASUREMENT_ID = process.env.GA_MEASUREMENT_ID;
-async function sendAnalyticsEvent(event) {
-    try {
-        const payload = {
-            app_name: 'theofficescript',
-            app_version: '1.0.0',
-            event_name: event,
-        };
-        const response = await axios.post(`https://www.google-analytics.com/mp/collect?measurement_id=${GA_MEASUREMENT_ID}&api_secret=${process.env.GA_API_SECRET}`, event);
-        console.log(response.data);
-    }
-    catch (error) {
-        logger.error(`Failed to send event to Google Analytics: ${error.message}`);
-    }
-}
+// analytics
+const sendAnalyticsEvent = require('./middlewares/analytics');
 
 const PORT = process.env.PORT;
 
-// Initialize logger
+// init logger
 let logger = null;
 if (process.env.NODE_ENV === 'development') {
     console.log('Running in dev mode');
@@ -91,6 +76,10 @@ app.use(randomRoutes)
 const askRoutes = require('./routes/ask');
 app.use(askRoutes);
 
+// Gets every line from character in given episode
+const characterRoutes = require('./routes/character');
+app.use(characterRoutes);
+
 // Gets script for random episode from given season
 app.get("/seasons/:season/random", async (req, res) => {
     logger.info('Get script from random season and episode');
@@ -117,21 +106,6 @@ app.get("/seasons/:season/random", async (req, res) => {
 //         console.error(err);
 //     }
 // })
-
-// Gets every line for given character, season, and episode
-app.get("/seasons/:season/episodes/:episode/characters/:character", async (req, res) => {
-    logger.info('Get every line from given character, season, and episode');
-    try {
-        const { season, episode, character } = req.params;
-        const characterName = character.charAt(0).toUpperCase() + character.slice(1);
-        const script = await pool.query("SELECT line FROM lines WHERE season = $1 AND episode = $2 AND character = $3"
-            , [season, episode, characterName])
-        res.json(script.rows);
-    }
-    catch (err) {
-        logger.error(err);
-    }
-})
 
 app.listen(PORT || 5001, (req, res) => {
     console.log(`server is running on port ${PORT}`);
