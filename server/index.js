@@ -13,6 +13,25 @@ const rateLimit = require("express-rate-limit");
 const buildDevLogger = require('./logger/dev-logger');
 const buildProdLogger = require('./logger/prod-logger');
 
+// Google Analytics
+const axios = require('axios');
+const GA_MEASUREMENT_ID = process.env.GA_MEASUREMENT_ID;
+async function sendAnalyticsEvent(event) {
+    try {
+        const payload = {
+            ...params,
+            app_name: 'theofficescript',
+            app_version: '1.0.0',
+            event_name: event,
+        };
+        const response = await axios.post(`https://www.google-analytics.com/mp/collect?measurement_id=${GA_MEASUREMENT_ID}&api_secret=${process.env.GA_API_SECRET}`, event);
+        console.log(response.data);
+    }
+    catch (error) {
+        logger.error(`Failed to send event to Google Analytics: ${error.message}`);
+    }
+}
+
 require('dotenv').config()
 const PORT = process.env.PORT;
 
@@ -69,6 +88,7 @@ app.get('/', function (req, res) {
 // Gets a random line
 app.get("/random", async (req, res) => {
     logger.info('Get a random line');
+    sendAnalyticsEvent('random');
     try {
         const quote = await pool.query(
             "SELECT season, episode, character, line FROM lines OFFSET floor(random() * (SELECT COUNT(*) FROM lines))"
