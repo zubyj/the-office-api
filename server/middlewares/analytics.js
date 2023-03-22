@@ -1,4 +1,5 @@
 const axios = require("axios");
+const uuid = require('uuid');
 
 const MEASUREMENT_ID = process.env.MEASUREMENT_ID_GA; // Replace with your Measurement ID
 const API_KEY_GA = process.env.API_KEY_GA; // Replace with your API key
@@ -16,7 +17,7 @@ async function sendAnalyticsEvent(event) {
 
 // Example of sending a page_view event
 const event = {
-    client_id: "some_client_id", // Replace with a unique client identifier
+    client_id: uuid.v4(), // Replace with a unique client identifier
     events: [
         {
             name: "page_view",
