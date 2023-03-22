@@ -1,62 +1,31 @@
-const axios = require('axios');
-const GA_MEASUREMENT_ID = process.env.GA_MEASUREMENT_ID;
-const GA_API_SECRET = process.env.GA_API_SECRET;
-const FIREBASE_APP_ID = process.env.FIREBASE_APP_ID; // Replace with your Firebase App ID
-const APP_INSTANCE_ID = process.env.APP_INSTANCE_ID
+const axios = require("axios");
+
+const MEASUREMENT_ID = process.env.MEASUREMENT_ID_GA; // Replace with your Measurement ID
+const API_KEY_GA = process.env.API_KEY_GA; // Replace with your API key
 
 async function sendAnalyticsEvent(event) {
-    // try {
-    //     const payload = {
-    //         app_instance_id: APP_INSTANCE_ID, // Replace with actual app instance ID (e.g., from Firebase SDK)
-    //         events: [
-    //             {
-    //                 name: event,
-    //                 params: {},
-    //             },
-    //         ],
-    //     };
-    //     const response = await axios.post(
-    //         `https://www.google-analytics.com/mp/collect?firebase_app_id=${FIREBASE_APP_ID}&api_secret=${GA_API_SECRET}`,
-    //         payload,
-    //         {
-    //             headers: {
-    //                 'Content-Type': 'application/json',
-    //             },
-    //         }
-    //     );
-    //     console.log('sent analytics event');
-    //     console.log(response.data);
-    // } catch (error) {
-    //     console.log(`Failed to send event to Google Analytics: ${error.message}`);
-    // }
+    const url = `https://www.google-analytics.com/mp/collect?measurement_id=${MEASUREMENT_ID}&api_secret=${API_KEY_GA}`;
 
     try {
-        const payload = {
-            app_instance_id: APP_INSTANCE_ID, // Replace with actual app instance ID (e.g., from Firebase SDK)
-            events: [
-                {
-                    name: event,
-                    params: {},
-                },
-            ],
-        };
-        const response = await axios.post(
-            `https://www.google-analytics.com/debug/mp/collect?firebase_app_id=${FIREBASE_APP_ID}&api_secret=${GA_API_SECRET}`,
-            payload,
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        );
-        console.log('sent analytics event');
-        console.log(response.data);
+        const response = await axios.post(url, event);
+        console.log("GA4 event sent:", response.status);
     } catch (error) {
-        console.log(`Failed to send event to Google Analytics: ${error.message}`);
+        console.error("Error sending GA4 event:", error);
     }
-
-
-
 }
+
+// Example of sending a page_view event
+const event = {
+    client_id: "some_client_id", // Replace with a unique client identifier
+    events: [
+        {
+            name: "page_view",
+            params: {
+                page_location: "https://example.com/your-page",
+                page_title: "Your Page Title",
+            },
+        },
+    ],
+};
 
 module.exports = sendAnalyticsEvent;
