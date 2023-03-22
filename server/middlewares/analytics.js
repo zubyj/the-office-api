@@ -24,6 +24,7 @@ async function sendAnalyticsEvent(event) {
                 },
             }
         );
+        console.log('sent analytics event');
         console.log(response.data);
     } catch (error) {
         console.log(`Failed to send event to Google Analytics: ${error.message}`);
