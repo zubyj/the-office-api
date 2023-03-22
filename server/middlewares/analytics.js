@@ -10,6 +10,7 @@ async function sendAnalyticsEvent(event) {
             event_name: event,
         };
         const response = await axios.post(`https://www.google-analytics.com/mp/collect?measurement_id=${GA_MEASUREMENT_ID}&api_secret=${GA_API_SECRET}`, event);
+        console.log('Sending analytics event for ' + event);
         console.log(response.data);
     }
     catch (error) {
