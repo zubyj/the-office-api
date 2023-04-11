@@ -3,18 +3,7 @@ import Sidebar from './components/Sidebar.vue';
 import Endpoint from './components/Endpoint.vue';
 import Example from './components/Example.vue';
 import RequestForm from './components/RequestForm.vue';
-import { event, pageview } from 'vue-gtag';
 </script>
-
-<script>
-export default {
-  mounted() {
-    event('pageview', { method: 'Homepage' });
-    pageview('/');
-  }
-}
-</script>
-
 <template>
   <div class="app">
     <!-- Sidebar Navigation -->

@@ -5,7 +5,6 @@
 
 <script>
 import axios, { isAxiosError } from 'axios'
-import { event, pageview } from 'vue-gtag';
 
 export default {
     data() {

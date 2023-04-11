@@ -1,8 +1,3 @@
-<!-- 
-This Vue.js page is a simple component that allows users to make API requests to 'https://www.theofficescript.com/' and display the response.
-It uses the axios library for making HTTP requests and the vue-gtag library for logging events to Google Analytics.
--->
-
 <script setup>
 defineProps({
   path: {
