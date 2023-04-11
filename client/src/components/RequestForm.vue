@@ -1,7 +1,7 @@
 <!-- This VueJS component provides a user interface for making API requests and displaying the response.
      The user inputs a path to an API endpoint, and the component sends a GET request to the endpoint using the axios library.
      The response is then displayed in the UI.
-     The component also handles loading and error states, and logs events to Google Analytics. -->
+     The component also handles loading and error states -->
 
 <script>
 import axios, { isAxiosError } from 'axios'
@@ -40,12 +40,6 @@ export default {
                 .finally(() => {
                     this.isLoading(false);
                 });
-            // Log event in google analytics
-            event('submit-api-request', {
-                'event-category': 'documentation',
-                'event_label': 'API request button clicked',
-                'value': 1,
-            })
         },
         isLoading(status) {
             this.loading = status;

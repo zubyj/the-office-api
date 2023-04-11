@@ -4,21 +4,18 @@ const app = express()
 const pool = require('./db');
 const compression = require('compression');
 
-// import middlewares
+// Import middlewares
 const cors = require("cors");
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
 
-// import routes
+// Import routes
 const buildDevLogger = require('./logger/dev-logger');
 const buildProdLogger = require('./logger/prod-logger');
 
-// import google analytics
-const sendAnalyticsEvent = require('./middlewares/analytics');
-
 const PORT = process.env.PORT;
 
-// init logger
+// Initialize logger
 let logger = null;
 if (process.env.NODE_ENV === 'development') {
     console.log('Running in dev mode');
@@ -28,20 +25,12 @@ else {
     logger = buildProdLogger();
 }
 
-// middleware 
+// Set up middlewares
 app.use(compression())  // Add compression for faster performance
 app.use(cors());  // lets server get requests from localhost
 app.use(express.json()) // gets the request body and converts it to json, same as body-parser
-// sets HTTPS headers (stops cross-site scripting attacks, ensures secure (HTTPS) connection to client)
-app.use(helmet.contentSecurityPolicy({
-    directives: {
-        connectSrc: ["https://www.theofficescript.com"],
-        scriptSrc: ["'self'", "www.googletagmanager.com", "www.google-analytics.com",],
-    }
-}));
 app.use(express.static('../client/dist')); // Get the static web files from the client folder
-// Applies rate limit to all requests
-const limiter = rateLimit({
+const limiter = rateLimit({ // Applies rate limit to all requests
     windowsMs: 15 * 60 * 1000, // 15 minutes
     max: 100, // limit each IP to 100 requests per window (15 mins here)
     standardHeaders: true, // Returns rate limit info in RateLimit headers
@@ -64,7 +53,6 @@ app.use(session({
 // Gets the website with API documentation
 app.get('/', function (req, res) {
     logger.info('Open homepage');
-    sendAnalyticsEvent('open_homepage');
     res.sendFile(path.join(__dirname, '../client/dist/index.html'));
 });
 
