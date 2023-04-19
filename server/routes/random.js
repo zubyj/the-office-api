@@ -2,9 +2,6 @@ const express = require('express');
 const router = express.Router();
 const pool = require('../db');
 
-const analytics = require('analytics-node');
-const client = new Analytics('G-76NHHGY3V1')
-
 // Gets a random line from the database
 router.get('/random', async (req, res) => {
     console.log('Get a random line');
