@@ -77,7 +77,7 @@ router.get("/characters/:character/ask/:question", async (req, res) => {
                 res.json(line.rows[0]);
             }
             catch (err) {
-                logger.error(err);
+                console.log(err);
             }
         }
         else {
@@ -85,7 +85,7 @@ router.get("/characters/:character/ask/:question", async (req, res) => {
         }
     }
     catch (err) {
-        logger.error(err);
+        console.log(err);
     }
 });
 
