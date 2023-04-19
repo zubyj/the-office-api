@@ -58,7 +58,7 @@ router.get("/ask/:question", async (req, res) => {
 
 // Gets a line from character given user text
 router.get("/characters/:character/ask/:question", async (req, res) => {
-    logger.info('Ask question to character');
+    console.log('Ask question to character');
     const { character, question } = req.params;
     var q = question.replaceAll("-", " & ");
     q.replace("'", "").toLowerCase();
@@ -70,7 +70,7 @@ router.get("/characters/:character/ask/:question", async (req, res) => {
 
         if (response.rows.length == 0) {
             // Try trigrams if full-text search fails
-            logger.warn('Full text search doesnt work. Trying trigrams');
+            console.log('Full text search doesnt work. Trying trigrams');
             try {
                 var query = "SELECT season, episode, response FROM " + tableName + " ORDER BY SIMILARITY(line, $1) DESC LIMIT 5"
                 const line = await pool.query(query, [q]);
