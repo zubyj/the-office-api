@@ -57,7 +57,7 @@ router.get("/ask/:question", async (req, res) => {
 })
 
 // Gets a line from character given user text
-app.get("/characters/:character/ask/:question", async (req, res) => {
+router.get("/characters/:character/ask/:question", async (req, res) => {
     logger.info('Ask question to character');
     const { character, question } = req.params;
     var q = question.replaceAll("-", " & ");
