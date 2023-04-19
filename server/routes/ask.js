@@ -56,4 +56,38 @@ router.get("/ask/:question", async (req, res) => {
     }
 })
 
+// Gets a line from character given user text
+app.get("/characters/:character/ask/:question", async (req, res) => {
+    logger.info('Ask question to character');
+    const { character, question } = req.params;
+    var q = question.replaceAll("-", " & ");
+    q.replace("'", "").toLowerCase();
+    var characterName = character.charAt(0).toUpperCase() + character.slice(1).toLowerCase();
+    const tableName = characterName.charAt(0).toLowerCase() + characterName.slice(1) + 'responses';
+    try {
+        var query = "SELECT season, episode, response FROM " + tableName + " WHERE ts_lines @@ to_tsquery('simple', $1) ORDER BY ts_rank(ts_lines, to_tsquery('simple', $1)) DESC LIMIT 100";
+        const response = await pool.query(query, [q]);
+
+        if (response.rows.length == 0) {
+            // Try trigrams if full-text search fails
+            logger.warn('Full text search doesnt work. Trying trigrams');
+            try {
+                var query = "SELECT season, episode, response FROM " + tableName + " ORDER BY SIMILARITY(line, $1) DESC LIMIT 5"
+                const line = await pool.query(query, [q]);
+                res.json(line.rows[0]);
+            }
+            catch (err) {
+                logger.error(err);
+            }
+        }
+        else {
+            res.json(response.rows[0]);
+        }
+    }
+    catch (err) {
+        logger.error(err);
+    }
+});
+
+
 module.exports = router;
