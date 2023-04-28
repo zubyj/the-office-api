@@ -1,16 +1,15 @@
-<!-- This VueJS component provides a user interface for making API requests and displaying the response.
+<!-- Let's the user make API requests and displays the response.
      The user inputs a path to an API endpoint, and the component sends a GET request to the endpoint using the axios library.
      The response is then displayed in the UI.
      The component also handles loading and error states -->
-
 <script>
-import axios, { isAxiosError } from 'axios'
+import axios from 'axios'
 
 export default {
     data() {
         return {
-            loading: false, // A boolean value indicating whether the component is waiting for a 
-            error: false, // A boolean value indicating whether the most recent API request resulted in an error
+            loading: false,
+            error: false, // Whether the most recent API request resulted in an error
             path: 'random', // The path to the API endpoint
             season: '5',
             episode: '12',
@@ -52,6 +51,9 @@ export default {
             const userAgent = navigator.userAgent.toLowerCase();
             return /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
         },
+        updateTextForm(selection) {
+            this.path = selection.target.value; // set only the path to the API endpoint
+        },
     },
 }
 </script>
@@ -72,8 +74,17 @@ export default {
                 </div>
             </div>
         </h2>
+
         <!-- API Request Text Form -->
         <div class="container">
+            <label for="dropdown">Try these examples</label>
+            <select @change="updateTextForm($event)" id="dropdown">
+                <option value="random" selected>Get a random line</option>
+                <option value="characters/dwight/ask/do-bears-eat-beets">Ask Dwight if bears eat beets</option>
+                <option value="characters/michael/random">Get a random line from Michael Scott</option>
+                <option value="seasons/2/episodes/5/characters/jim/random">Get a random line from Jim in season 2 episode 5
+                </option>
+            </select>
             <div>
                 <span id="request">
                     <span id="url">
@@ -82,7 +93,7 @@ export default {
                     <input v-model="path" id="textForm" @keypress.enter="submitRequest" :autofocus="!isMobile()">
                 </span>
             </div>
-            <button @click="submitRequest()" id="submitBtn">
+            <button @click.prevent="submitRequest()" id="submitBtn">
                 <a>Get Response</a>
             </button>
         </div>
@@ -116,6 +127,11 @@ input {
     background-color: black;
     max-width: 100vw;
     margin-top: 5rem;
+}
+
+.title {
+    margin-bottom: 2rem;
+    color: var(--primary)
 }
 
 #loadingMsg {
@@ -236,6 +252,18 @@ a:hover::after {
 #responseBody {
     margin-top: 2rem;
     color: var(--light);
+}
+
+#dropdown {
+    border: 1px solid white;
+    background-color: transparent;
+    color: var(--light);
+    padding: .25rem;
+    border-radius: 5px;
+    margin-right: 0.5rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    font-size: 1rem;
 }
 
 .paramName {
