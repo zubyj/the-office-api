@@ -19,7 +19,7 @@ import RequestForm from './components/RequestForm.vue';
 
       <!-- Ask the script -->
       <div id="ask_question">
-        <Endpoint name="Ask the script" path="/ask/:question" :parameters="{
+        <Endpoint name="1. Ask the script" path="/ask/:question" :parameters="{
           question: 'text separated by hyphens'
         }" />
         <ExampleRequest path="/ask/i-declare-bankruptcy" season="4" episode="4" character="Oscar"
@@ -28,7 +28,7 @@ import RequestForm from './components/RequestForm.vue';
 
       <!-- Ask a character -->
       <div id="ask_question_character">
-        <Endpoint name="Ask a character" path="/characters/:character/ask/:question" :parameters="{
+        <Endpoint name="2. Ask a character" path="/characters/:character/ask/:question" :parameters="{
             question: 'text separated by hyphens',
             character: 'the first name of the character',
           }" />
@@ -46,14 +46,14 @@ import RequestForm from './components/RequestForm.vue';
 
       <!-- Gets a random line -->
       <div id="random_line">
-        <Endpoint name="Get a random line" path="/random" />
+        <Endpoint name="3. Get a random line" path="/random" />
         <ExampleRequest path="/random" season="5" episode="22" character="Michael"
           line="That sounds like a fantastic idea. I will see you this weekend for the Penguins. Box seats as usual." />
       </div>
 
       <!-- Gets a random line from character -->
       <div id="random_line_character">
-        <Endpoint name="Get a random line from character" path="/characters/:character/random" :parameters="{
+        <Endpoint name="4. Get a random line from character" path="/characters/:character/random" :parameters="{
             character: 'the first name of the character',
           }" />
         <ExampleRequest path="/characters/dwight/random" season="1" episode="1"
@@ -62,8 +62,8 @@ import RequestForm from './components/RequestForm.vue';
 
       <!-- Gets a random line from season and character -->
       <div id="random_line_season_character">
-        <Endpoint name="Get a random line from season and character" path="/seasons/:season/characters/:character/random"
-          :parameters="{
+        <Endpoint name="5. Get a random line from season and character"
+          path="/seasons/:season/characters/:character/random" :parameters="{
               season: 'the season number (1-9)',
               character: 'the first name of the character',
             }" />
@@ -73,7 +73,7 @@ import RequestForm from './components/RequestForm.vue';
 
       <!-- Gets a random line from season, episode, and character -->
       <div id="random_line_season_episode_character">
-        <Endpoint name="Get a random line from season, episode, and character"
+        <Endpoint name="6. Get a random line from season, episode, and character"
           path="/seasons/:season/episodes/:episode/characters/:character/random" :parameters="{
               season: 'the season number (1-9)',
               episode: 'the episode number',
