@@ -1,8 +1,7 @@
-<!-- This VueJS component provides a user interface for making API requests and displaying the response.
+<!-- Let's the user make API requests and displays the response.
      The user inputs a path to an API endpoint, and the component sends a GET request to the endpoint using the axios library.
      The response is then displayed in the UI.
      The component also handles loading and error states -->
-
 <script>
 import axios from 'axios'
 
@@ -53,8 +52,8 @@ export default {
             return /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
         },
         updateTextForm(selection) {
-    this.path = selection.target.value.split("/ask/")[1];
-},
+            this.path = selection.target.value; // set only the path to the API endpoint
+        },
     },
 }
 </script>
@@ -75,24 +74,25 @@ export default {
                 </div>
             </div>
         </h2>
-        
+
         <!-- API Request Text Form -->
         <div class="container">
             <select @change="updateTextForm($event)" id="dropdown">
-                        <option value="" disabled selected>Select an option</option>
-                        <option value="/michael/ask/">/michael/ask/how-are-you</option>
-                        <option value="/dwight/ask/">/dwight/ask/whats-up</option>
+                <option value="random" selected>Get a random line</option>
+                <option value="characters/dwight/ask/do-bears-eat-beets">Ask Dwight if bears eat beets</option>
+                <option value="characters/michael/random">Get a random line from Michael Scott</option>
+                <option value="seasons/2/episodes/5/characters/jim/random">Get a random line from Jim in season 2 episode 5
+                </option>
             </select>
             <div>
                 <span id="request">
                     <span id="url">
                         https://theofficescript.com/
                     </span>
-
                     <input v-model="path" id="textForm" @keypress.enter="submitRequest" :autofocus="!isMobile()">
                 </span>
             </div>
-            <button @click="submitRequest()" id="submitBtn">
+            <button @click.prevent="submitRequest()" id="submitBtn">
                 <a>Get Response</a>
             </button>
         </div>
@@ -255,6 +255,9 @@ a:hover::after {
     padding: .25rem;
     border-radius: 5px;
     margin-right: 0.5rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    font-size: 1rem;
 }
 
 .paramName {
