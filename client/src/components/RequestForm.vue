@@ -77,6 +77,7 @@ export default {
 
         <!-- API Request Text Form -->
         <div class="container">
+            <label for="dropdown">Try these examples</label>
             <select @change="updateTextForm($event)" id="dropdown">
                 <option value="random" selected>Get a random line</option>
                 <option value="characters/dwight/ask/do-bears-eat-beets">Ask Dwight if bears eat beets</option>
@@ -126,6 +127,11 @@ input {
     background-color: black;
     max-width: 100vw;
     margin-top: 5rem;
+}
+
+.title {
+    margin-bottom: 2rem;
+    color: var(--primary)
 }
 
 #loadingMsg {
