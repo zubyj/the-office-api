@@ -4,13 +4,13 @@
      The component also handles loading and error states -->
 
 <script>
-import axios, { isAxiosError } from 'axios'
+import axios from 'axios'
 
 export default {
     data() {
         return {
-            loading: false, // A boolean value indicating whether the component is waiting for a 
-            error: false, // A boolean value indicating whether the most recent API request resulted in an error
+            loading: false,
+            error: false, // Whether the most recent API request resulted in an error
             path: 'random', // The path to the API endpoint
             season: '5',
             episode: '12',
@@ -52,6 +52,9 @@ export default {
             const userAgent = navigator.userAgent.toLowerCase();
             return /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
         },
+        updateTextForm(selection) {
+    this.path = selection.target.value.split("/ask/")[1];
+},
     },
 }
 </script>
@@ -72,13 +75,20 @@ export default {
                 </div>
             </div>
         </h2>
+        
         <!-- API Request Text Form -->
         <div class="container">
+            <select @change="updateTextForm($event)" id="dropdown">
+                        <option value="" disabled selected>Select an option</option>
+                        <option value="/michael/ask/">/michael/ask/how-are-you</option>
+                        <option value="/dwight/ask/">/dwight/ask/whats-up</option>
+            </select>
             <div>
                 <span id="request">
                     <span id="url">
                         https://theofficescript.com/
                     </span>
+
                     <input v-model="path" id="textForm" @keypress.enter="submitRequest" :autofocus="!isMobile()">
                 </span>
             </div>
@@ -236,6 +246,15 @@ a:hover::after {
 #responseBody {
     margin-top: 2rem;
     color: var(--light);
+}
+
+#dropdown {
+    border: 1px solid white;
+    background-color: transparent;
+    color: var(--light);
+    padding: .25rem;
+    border-radius: 5px;
+    margin-right: 0.5rem;
 }
 
 .paramName {

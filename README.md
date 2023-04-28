@@ -1,4 +1,5 @@
 # The Office Script REST API
+
 ![The Office API Logo](./client/src/assets/the-office-api-logo.jpg)
 Try it out at [theofficescript.com](https://theofficescript.com)
 
@@ -42,7 +43,7 @@ This free to use REST API allows users to interact with the script of NBC's "The
 2. Run `npm run build` to build the production-ready version of the frontend.
 3. This will create a `dist` folder with the optimized assets for the frontend. You can then deploy this folder to a static hosting service like AWS S3, Netlify, or Vercel.
 
-- Both the backend and frontend can be deployed separately. 
+- Both the backend and frontend can be deployed separately.
 - The backend can be deployed to any platform that supports Node.js, such as Heroku.
 
 ### Main Components
@@ -50,17 +51,16 @@ This free to use REST API allows users to interact with the script of NBC's "The
 - `App.vue`: The main application component, which includes the main layout and imports other components.
 - `Sidebar.vue`: The sidebar navigation component, which allows users to navigate between different API endpoints.
 - `RequestForm.vue`: The component responsible for handling user input and displaying the API request and response.
-- `Example.vue`: A component that displays examples of API requests and responses.
+- `ExampleRequest.vue`: A component that displays examples of API requests and responses.
 
 ## Backend
+
 The backend is composed of an Express.js server and a PostgreSQL database:
 
 - The Express.js server listens for API requests at [theofficescript.com](https://theofficescript.com) and serves the static files of the frontend.
 - The PostgreSQL database contains the entire script of "The Office" organized by season, episode, character, line, etc. It is hosted on AWS RDS.
 
 ![API Diagram](/office-api-diagram.png)
-
-
 
 ### Setting up the Backend
 
