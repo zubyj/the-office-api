@@ -14,7 +14,7 @@ router.get("/ask/:question", async (req, res) => {
             "SELECT line_id, line FROM lines WHERE ts_lines @@ to_tsquery('simple', $1) ORDER BY ts_rank(ts_lines, to_tsquery('simple', $1)) DESC LIMIT 10", [q]
         )
         if (line.rows.length == 0) {
-            console.log("Full text search didnt work. Trying trigrams..");
+            logger.info("Full text search didnt work. Trying trigrams..");
             // Try trigrams if full-text search fails
             try {
                 const line = await pool.query(
@@ -29,11 +29,11 @@ router.get("/ask/:question", async (req, res) => {
                     res.json(response.rows[0]);
                 }
                 catch (err) {
-                    console.log(err);
+                    logger.error(err);
                 }
             }
             catch (err) {
-                console.log(err);
+                logger.error(err);
             }
         }
         else {
@@ -47,18 +47,18 @@ router.get("/ask/:question", async (req, res) => {
                 return;
             }
             catch (err) {
-                console.log(err);
+                logger.error(err);
             }
         }
     }
     catch (err) {
-        console.log(err);
+        logger.error(err);
     }
 })
 
 // Gets a line from character given user text
 router.get("/characters/:character/ask/:question", async (req, res) => {
-    console.log('Ask question to character');
+    logger.info('Ask question to character');
     const { character, question } = req.params;
     var q = question.replaceAll("-", " & ");
     q.replace("'", "").toLowerCase();
@@ -70,14 +70,14 @@ router.get("/characters/:character/ask/:question", async (req, res) => {
 
         if (response.rows.length == 0) {
             // Try trigrams if full-text search fails
-            console.log('Full text search doesnt work. Trying trigrams');
+            logger.info('Full text search doesnt work. Trying trigrams');
             try {
                 var query = "SELECT season, episode, response FROM " + tableName + " ORDER BY SIMILARITY(line, $1) DESC LIMIT 5"
                 const line = await pool.query(query, [q]);
                 res.json(line.rows[0]);
             }
             catch (err) {
-                console.log(err);
+                logger.error(err);
             }
         }
         else {
@@ -85,7 +85,7 @@ router.get("/characters/:character/ask/:question", async (req, res) => {
         }
     }
     catch (err) {
-        console.log(err);
+        logger.error(err);
     }
 });
 

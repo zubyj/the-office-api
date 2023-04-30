@@ -4,18 +4,18 @@ const app = express()
 const pool = require('./db');
 const compression = require('compression');
 
-// Import middlewares
+// middlewares
 const cors = require("cors");
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
 
-// Import routes
+// routes
 const buildDevLogger = require('./logger/dev-logger');
 const buildProdLogger = require('./logger/prod-logger');
 
 const PORT = process.env.PORT;
 
-// Initialize logger
+// logger
 let logger = null;
 if (process.env.NODE_ENV === 'development') {
     console.log('Running in dev mode');
