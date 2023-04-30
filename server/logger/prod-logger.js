@@ -1,4 +1,4 @@
-// const winston = require('winston');
+const winston = require('winston');
 const { format, createLogger, transports, exitOnError } = require('winston');
 const { timestamp, combine, errors, json } = format
 
