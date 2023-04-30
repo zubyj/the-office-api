@@ -13,8 +13,22 @@ function buildProdLogger() {
         defaultMeta: { service: 'user-service' },
         exitOnError: false,
         transports: [
-            new transports.File({ filename: 'requests.log', }),
+            fileTransport
         ]
     });
 }
+
+const fileTransport = new winston.transports.File({
+    filename: path.join(__dirname, 'logs.txt'),
+    format: winston.format.combine(
+        winston.format.timestamp(),
+        winston.format.printf(({ timestamp, level, message, ...rest }) => {
+            const formattedMessage = `${timestamp} ${level}: ${message}`;
+            return Object.keys(rest).length
+                ? `${formattedMessage} ${JSON.stringify(rest)}`
+                : formattedMessage;
+        })
+    ),
+});
+
 module.exports = buildProdLogger
