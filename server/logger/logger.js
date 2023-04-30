@@ -1,6 +1,6 @@
 const winston = require('winston');
-const buildDevLogger = require('./logger/dev-logger');
-const buildProdLogger = require('./logger/prod-logger');
+const buildDevLogger = require('./dev-logger');
+const buildProdLogger = require('./prod-logger');
 
 let logger = null;
 if (process.env.NODE_ENV === 'development') {
