@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const pool = require('../db');
-
+const logger = require('./logger/logger.js');
 
 // Gets a random line from the database
 router.get('/random', async (req, res) => {
-    console.log('Get a random line');
+    logger.info('Get a random line');
     try {
         const quote = await pool.query(
             "SELECT season, episode, character, line FROM lines OFFSET floor(random() * (SELECT COUNT(*) FROM lines))"
@@ -19,7 +19,7 @@ router.get('/random', async (req, res) => {
 
 // Gets a random quote from a random character given season and episode
 router.get("/seasons/:season/episodes/:episode/random", async (req, res) => {
-    console.log('Get random quote from random character given season and episode');
+    logger.info('Get random quote from random character given season and episode');
     try {
         const { season, episode } = req.params;
         const seasonNum = parseInt(season);
@@ -31,13 +31,13 @@ router.get("/seasons/:season/episodes/:episode/random", async (req, res) => {
         res.json(quote.rows[0]);
     }
     catch (err) {
-        console.error(err);
+        logger.error(err);
     }
 })
 
 // Gets a random quote from given character
 router.get("/characters/:character/random", async (req, res) => {
-    console.log('Get random quote from given character');
+    logger.info('Get random quote from given character');
     try {
         const { character } = req.params;
         const characterName = character.charAt(0).toUpperCase() + character.slice(1);
@@ -48,7 +48,7 @@ router.get("/characters/:character/random", async (req, res) => {
         res.json(quote.rows[0]);
     }
     catch (err) {
-        console.error(err);
+        logger.error(err);
     }
 })
 
@@ -64,13 +64,13 @@ router.get("/seasons/:season/random", async (req, res) => {
         res.json(quote.rows[0]);
     }
     catch (err) {
-        console.error(err);
+        logger.error(err);
     }
 })
 
 // Gets a random quote from given season and character
 router.get("/seasons/:season/characters/:character/random", async (req, res) => {
-    console.log('Get random quote from given season and character');
+    logger.info('Get random quote from given season and character');
     try {
         const { season, character } = req.params;
         const seasonNum = parseInt(season);
@@ -82,13 +82,13 @@ router.get("/seasons/:season/characters/:character/random", async (req, res) => 
         res.json(quote.rows[0]);
     }
     catch (err) {
-        console.error(err);
+        logger.error(err);
     }
 })
 
 // Gets random quote from given season, episode, and character
 router.get("/seasons/:season/episodes/:episode/characters/:character/random", async (req, res) => {
-    console.log('Get random quote from given season, episode, and character');
+    logger.info('Get random quote from given season, episode, and character');
     try {
         const { season, episode, character } = req.params;
         const seasonNum = parseInt(season);
@@ -101,13 +101,13 @@ router.get("/seasons/:season/episodes/:episode/characters/:character/random", as
         res.json(quote.rows[0]);
     }
     catch (err) {
-        console.log(err);
+        logger.error(err);
     }
 })
 
 // Gets a random line from random episode in given season
 router.get("/seasons/:season/random", async (req, res) => {
-    console.log('Get script from random season and episode');
+    logger.info('Get script from random season and episode');
     try {
         const { season } = req.params;
         const script = await pool.query("SELECT character, line FROM lines WHERE season = $1 OFFSET floor(random() * (SELECT COUNT(*) FROM lines WHERE season = $1))",
@@ -116,7 +116,7 @@ router.get("/seasons/:season/random", async (req, res) => {
         res.json(script.rows)
     }
     catch (err) {
-        console.log(err);
+        logger.error(err);
     }
 })
 
