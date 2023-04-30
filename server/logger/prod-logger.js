@@ -7,12 +7,14 @@ function buildProdLogger() {
     return createLogger({
         format: combine(
             timestamp(),
-            errors({stack: true}),
+            errors({ stack: true }),
             json(),
         ),
         defaultMeta: { service: 'user-service' },
         exitOnError: false,
-        transports: [new transports.Console()],
+        transports: [
+            new transports.File({ filename: 'requests.log', }),
+        ]
     });
 }
 module.exports = buildProdLogger

@@ -1,4 +1,3 @@
-const winston = require('winston');
 const buildDevLogger = require('./dev-logger');
 const buildProdLogger = require('./prod-logger');
 
