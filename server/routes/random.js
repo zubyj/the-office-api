@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const pool = require('../db');
-const logger = require('./logger/logger.js');
+const logger = require('../logger/logger.js');
 
 // Gets a random line from the database
 router.get('/random', async (req, res) => {
