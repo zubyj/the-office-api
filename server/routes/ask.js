@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const pool = require('../db');
+const logger = require('../logger/logger.js');
 
 // Get a response given user text
 router.get("/ask/:question", async (req, res) => {

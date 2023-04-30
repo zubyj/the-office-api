@@ -8,22 +8,9 @@ const compression = require('compression');
 const cors = require("cors");
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
-
-// routes
-const buildDevLogger = require('./logger/dev-logger');
-const buildProdLogger = require('./logger/prod-logger');
+const logger = require('./logger/logger.js');
 
 const PORT = process.env.PORT;
-
-// logger
-let logger = null;
-if (process.env.NODE_ENV === 'development') {
-    console.log('Running in dev mode');
-    logger = buildDevLogger();
-}
-else {
-    logger = buildProdLogger();
-}
 
 // Set up middlewares
 app.use(compression())  // Add compression for faster performance
