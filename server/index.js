@@ -29,7 +29,7 @@ app.use(limiter)
 
 // Set up google analytics
 const serverContainerURL = process.env.SERVER_CONTAINER_URL;
-const tagId = process.ENV.SERVER_CONTAINER_ID;
+const tagId = process.env.SERVER_CONTAINER_ID;
 
 const sendEvent = async (eventName) => {
     const eventData = {
