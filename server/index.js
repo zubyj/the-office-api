@@ -9,6 +9,7 @@ const cors = require("cors");
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
 const logger = require('./logger/logger.js');
+const axios = require('axios');
 
 const PORT = process.env.PORT;
 
@@ -24,6 +25,29 @@ const limiter = rateLimit({ // Applies rate limit to all requests
     legacyHeaders: false, // Disable X-RateLimit headers
 })
 app.use(limiter)
+
+
+// Set up google analytics
+const serverContainerURL = process.env.SERVER_CONTAINER_URL;
+const tagId = process.ENV.SERVER_CONTAINER_ID;
+
+const sendEvent = async (eventName) => {
+    const eventData = {
+        // replace with your event parameters
+        parameters: {
+            name: eventName,
+            client_id: 'CLIENT_ID', // replace with actual client ID
+            // other event parameters...
+        }
+    };
+
+    await axios.post(`${serverContainerURL}/mp2/collect`, eventData, {
+        params: { tid: tagId }
+    });
+};
+
+// usage
+sendEvent('event_name').catch(console.error);
 
 /*
 Set up cookie session
