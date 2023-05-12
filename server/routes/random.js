@@ -4,11 +4,11 @@ const pool = require('../db');
 const logger = require('../logger/logger.js');;
 
 const { Analytics } = require('@segment/analytics-node');
-const analytics = new Analytics({ writeKey: 'Q6Z0yZ9V2kIaYisKsp8sFM7hVYG3hXeW' });
 
 // Gets a random line from the database
 router.get('/random', async (req, res) => {
     logger.info('Get a random line');
+    const analytics = new Analytics({ writeKey: 'Q6Z0yZ9V2kIaYisKsp8sFM7hVYG3hXeW' });
     analytics.page();
     try {
         const quote = await pool.query(
