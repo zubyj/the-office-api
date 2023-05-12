@@ -59,12 +59,17 @@ app.get('/', function (req, res) {
     logger.info('Open homepage');
     console.log('open homepage');
     // Track event with Segment
-    analytics.track('Visited Homepage', {
-        user: req.session.id, // or however you identify your user
-        page: 'homepage'
-    });
 
-    res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+    try {
+
+        analytics.track('Visited Homepage', {
+            page: 'homepage'
+        });
+        res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+    } catch (error) {
+        console.log(error);
+    }
+
 });
 
 // Gets a random line
