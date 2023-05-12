@@ -5,17 +5,17 @@ const pool = require('./db');
 const compression = require('compression');
 const axios = require('axios');
 
-// segment & google analytics
-const analytics = require('analytics');
-const segmentPlugin = require('@analytics/segment');
-const analyticsObject = analytics({
-    app: 'the-office-script-api-server',
+const Analytics = require('analytics').default;
+const segmentPlugin = require('@analytics/segment').default;
+
+const analytics = Analytics({
+    app: 'my-app-name',
     plugins: [
         segmentPlugin({
-            writeKey: 'Q6Z0yZ9V2kIaYisKsp8sFM7hVYG3hXeW'
+            writeKey: process.env.SEGMENT_WRITE_KEY
         })
     ]
-})
+});
 
 // middlewares
 const cors = require("cors");
