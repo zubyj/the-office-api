@@ -5,8 +5,17 @@ const pool = require('./db');
 const compression = require('compression');
 const axios = require('axios');
 
-const Analytics = require('@segment/analytics-node');
-const analytics = new Analytics(process.env.SEGMENT_WRITE_KEY);
+// segment & google analytics
+const analytics = require('analytics');
+const segmentPlugin = require('@analytics/segment');
+const analytics = Analytics({
+    app: 'the-office-script-api-server',
+    plugins: [
+        segmentPlugin({
+            writeKey: 'Q6Z0yZ9V2kIaYisKsp8sFM7hVYG3hXeW'
+        })
+    ]
+})
 
 // middlewares
 const cors = require("cors");
@@ -43,19 +52,13 @@ app.use(session({
 
 app.get('/', function (req, res) {
     logger.info('Open homepage');
-    analytics.track({
-        userId: 'anonymous', // or provide a specific user id
-        event: 'Homepage requested',
-        properties: {
-            endpoint: '/homepage'
-        }
-    });
+    analytics.page();
     res.sendFile(path.join(__dirname, '../client/dist/index.html'));
 });
 
 // Gets a random line
-const randomRoutes = require('./routes/random');
-app.use(randomRoutes)
+const randomRoutes = require('./routes/random')(analytics);
+app.use(randomRoutes);
 
 // Gets a line from character given user text
 const askRoutes = require('./routes/ask');
