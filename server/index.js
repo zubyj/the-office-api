@@ -11,14 +11,38 @@ const rateLimit = require("express-rate-limit");
 const logger = require('./logger/logger.js');
 const axios = require('axios');
 
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+    apiKey: "AIzaSyD3_MQ5gFasoAZGM3fRsRjvOC--xmZ4f2E",
+    apiKey: process.env.FIREBASE_API_KEY,
+    authDomain: "the-office-script-api.firebaseapp.com",
+    projectId: "the-office-script-api",
+    storageBucket: "the-office-script-api.appspot.com",
+    messagingSenderId: "173776058994",
+    appId: process.env.FIREBASE_APP_ID,
+    appId: "1:173776058994:web:bc1fa5f2e8a4b00975e0eb",
+    measurementId: "G-20BJSRT974"
+};
+
+// Initialize Firebase
+const firebase_app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(firebase_app);
+
 const PORT = process.env.PORT;
 
 // Set up middlewares
-app.use(compression())  // Add compression for faster performance
-app.use(cors());  // lets server get requests from localhost
-app.use(express.json()) // gets the request body and converts it to json, same as body-parser
-app.use(express.static('../client/dist')); // Get the static web files from the client folder
-const limiter = rateLimit({ // Applies rate limit to all requests
+app.use(compression())
+app.use(cors());
+app.use(express.json())
+app.use(express.static('../client/dist'));
+const limiter = rateLimit({
     windowsMs: 15 * 60 * 1000, // 15 minutes
     max: 100, // limit each IP to 100 requests per window (15 mins here)
     standardHeaders: true, // Returns rate limit info in RateLimit headers
@@ -26,24 +50,36 @@ const limiter = rateLimit({ // Applies rate limit to all requests
 })
 app.use(limiter)
 
-
 // Set up google analytics
-const serverContainerURL = process.env.SERVER_CONTAINER_URL;
-const tagId = process.env.SERVER_CONTAINER_ID;
+const GA_TRACKING_ID = process.env.GA_TRACKING_ID;
 
-const sendEvent = async (eventName) => {
+const sendEvent = async (eventName, appInstanceId, clientId) => {
     const eventData = {
-        // replace with your event parameters
-        parameters: {
-            name: eventName,
-            client_id: 'CLIENT_ID', // replace with actual client ID
-            // other event parameters...
-        }
+        client_id: clientId,
+        events: [
+            {
+                name: eventName,
+                params: {
+                    engagement_time_msec: '100', // Replace with actual engagement time
+                    session_id: '123', // Replace with actual session ID
+                },
+            },
+        ],
     };
 
-    await axios.post(`${serverContainerURL}/mp2/collect`, eventData, {
-        params: { tid: tagId }
-    });
+    const queryParams = {
+        api_secret: process.env.API_SECRET, // Your API SECRET
+        firebase_app_id: process.env.FIREBASE_APP_ID, // Your Firebase App ID
+    };
+
+    try {
+        await axios.post('https://www.google-analytics.com/mp/collect', eventData, {
+            params: queryParams,
+        });
+        console.log('Event sent to Google Analytics');
+    } catch (error) {
+        console.error('Error sending event to Google Analytics:', error);
+    }
 };
 
 /*
