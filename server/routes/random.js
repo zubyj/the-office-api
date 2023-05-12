@@ -1,15 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const pool = require('../db');
-const logger = require('../logger/logger.js');
 const analytics = require('../analytics.js');
 
 // Gets a random line from the database
 router.get('/random', async (req, res) => {
-    logger.info('Get a random line');
     analytics.track({
-        event: 'Random Quote',
-        userId: 'anonymous',
+        event: 'Get random line',
+        userId: req.session.id,
     })
     try {
         const quote = await pool.query(
@@ -24,7 +22,10 @@ router.get('/random', async (req, res) => {
 
 // Gets a random quote from a random character given season and episode
 router.get("/seasons/:season/episodes/:episode/random", async (req, res) => {
-    logger.info('Get random quote from random character given season and episode');
+    analytics.track({
+        event: 'Get random line from given season and episode',
+        userId: req.session.id,
+    })
     try {
         const { season, episode } = req.params;
         const seasonNum = parseInt(season);
@@ -36,13 +37,16 @@ router.get("/seasons/:season/episodes/:episode/random", async (req, res) => {
         res.json(quote.rows[0]);
     }
     catch (err) {
-        logger.error(err);
+        console.error(err);
     }
 })
 
 // Gets a random quote from given character
 router.get("/characters/:character/random", async (req, res) => {
-    logger.info('Get random quote from given character');
+    analytics.track({
+        event: 'Get random line from given character',
+        userId: req.session.id,
+    })
     try {
         const { character } = req.params;
         const characterName = character.charAt(0).toUpperCase() + character.slice(1);
@@ -53,12 +57,16 @@ router.get("/characters/:character/random", async (req, res) => {
         res.json(quote.rows[0]);
     }
     catch (err) {
-        logger.error(err);
+        console.error(err);
     }
 })
 
 // Gets a random quote from given season
 router.get("/seasons/:season/random", async (req, res) => {
+    analytics.track({
+        event: 'Get random line from given season',
+        userId: req.session.id,
+    })
     try {
         const { season } = req.params;
         const seasonNum = parseInt(season);
@@ -69,13 +77,16 @@ router.get("/seasons/:season/random", async (req, res) => {
         res.json(quote.rows[0]);
     }
     catch (err) {
-        logger.error(err);
+        console.error(err);
     }
 })
 
 // Gets a random quote from given season and character
 router.get("/seasons/:season/characters/:character/random", async (req, res) => {
-    logger.info('Get random quote from given season and character');
+    analytics.track({
+        event: 'Random quote from given character and character',
+        userId: req.session.id,
+    })
     try {
         const { season, character } = req.params;
         const seasonNum = parseInt(season);
@@ -87,13 +98,16 @@ router.get("/seasons/:season/characters/:character/random", async (req, res) => 
         res.json(quote.rows[0]);
     }
     catch (err) {
-        logger.error(err);
+        console.error(err);
     }
 })
 
 // Gets random quote from given season, episode, and character
 router.get("/seasons/:season/episodes/:episode/characters/:character/random", async (req, res) => {
-    logger.info('Get random quote from given season, episode, and character');
+    analytics.track({
+        event: 'Random quote from given character and character',
+        userId: req.session.id,
+    })
     try {
         const { season, episode, character } = req.params;
         const seasonNum = parseInt(season);
@@ -106,14 +120,16 @@ router.get("/seasons/:season/episodes/:episode/characters/:character/random", as
         res.json(quote.rows[0]);
     }
     catch (err) {
-        logger.error(err);
+        console.error(err);
     }
 })
 
 // Gets a random line from random episode in given season
 router.get("/seasons/:season/random", async (req, res) => {
-    console.log('get script from random season and episode');
-    logger.info('Get script from random season and episode');
+    analytics.track({
+        event: 'Random quote from given character and character',
+        userId: req.session.id,
+    })
     try {
         const { season } = req.params;
         const script = await pool.query("SELECT character, line FROM lines WHERE season = $1 OFFSET floor(random() * (SELECT COUNT(*) FROM lines WHERE season = $1))",
@@ -122,7 +138,7 @@ router.get("/seasons/:season/random", async (req, res) => {
         res.json(script.rows)
     }
     catch (err) {
-        logger.error(err);
+        console.error(err);
     }
 })
 
