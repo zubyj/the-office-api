@@ -8,7 +8,7 @@ const axios = require('axios');
 // segment & google analytics
 const analytics = require('analytics');
 const segmentPlugin = require('@analytics/segment');
-const analytics = Analytics({
+const analyticsObject = analytics({
     app: 'the-office-script-api-server',
     plugins: [
         segmentPlugin({
@@ -52,7 +52,7 @@ app.use(session({
 
 app.get('/', function (req, res) {
     logger.info('Open homepage');
-    analytics.page();
+    analyticsObject.page();
     res.sendFile(path.join(__dirname, '../client/dist/index.html'));
 });
 
