@@ -39,7 +39,6 @@ app.use(session({
 app.get('/', function (req, res) {
     analytics.page({
         userId: 'anonymous',
-        category: 'Homepage',
         name: 'Homepage',
     });
     res.sendFile(path.join(__dirname, '../client/dist/index.html'));
