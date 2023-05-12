@@ -61,15 +61,17 @@ app.get('/', function (req, res) {
     // Track event with Segment
 
     try {
-
-        analytics.track('Visited Homepage', {
-            page: 'homepage'
+        analytics.page('Page View', {
+            'Data Stream Type': 'web',
+            'Client ID': req.session.id,
+            'Page Location': req.protocol + '://' + req.get('host') + req.originalUrl,
+            'Page Referrer': req.get('Referrer') || '',
+            'Page Title': 'The Office Script API',
         });
         res.sendFile(path.join(__dirname, '../client/dist/index.html'));
     } catch (error) {
         console.log(error);
     }
-
 });
 
 // Gets a random line
