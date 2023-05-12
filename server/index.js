@@ -42,7 +42,7 @@ app.use(session({
 
 // Initialize analytics with the Segment plugin
 const analytics = Analytics({
-    app: 'the-office-script-api',
+    app: 'the-office-script-api-server',
     plugins: [
         segmentPlugin({
             writeKey: process.env.SEGMENT_WRITE_KEY, // Replace with your Segment write key
