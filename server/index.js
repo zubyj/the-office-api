@@ -3,13 +3,11 @@ const path = require('path');
 const app = express();
 const pool = require('./db');
 const compression = require('compression');
-const axios = require('axios');
 const analytics = require('./analytics.js');
 
 const cors = require("cors");
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
-const logger = require('./logger/logger.js');
 
 const PORT = process.env.PORT;
 
@@ -39,7 +37,6 @@ app.use(session({
 }));
 
 app.get('/', function (req, res) {
-    logger.info('Open homepage');
     analytics.page({
         userId: 'anonymous',
         category: 'Homepage',
