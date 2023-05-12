@@ -84,7 +84,7 @@ router.get("/seasons/:season/random", async (req, res) => {
 // Gets a random quote from given season and character
 router.get("/seasons/:season/characters/:character/random", async (req, res) => {
     analytics.track({
-        event: 'Random quote from given character and character',
+        event: 'Get random line from given season and character',
         userId: 'anonymous',
     })
     try {
@@ -105,7 +105,7 @@ router.get("/seasons/:season/characters/:character/random", async (req, res) => 
 // Gets random quote from given season, episode, and character
 router.get("/seasons/:season/episodes/:episode/characters/:character/random", async (req, res) => {
     analytics.track({
-        event: 'Random quote from given character and character',
+        event: 'Get random line from given season, episode, and character',
         userId: 'anonymous',
     })
     try {
@@ -127,7 +127,7 @@ router.get("/seasons/:season/episodes/:episode/characters/:character/random", as
 // Gets a random line from random episode in given season
 router.get("/seasons/:season/random", async (req, res) => {
     analytics.track({
-        event: 'Random quote from given character and character',
+        event: 'Get random line from random character in given season',
         userId: 'anonymous',
     })
     try {
