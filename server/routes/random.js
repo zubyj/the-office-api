@@ -4,12 +4,15 @@ const pool = require('../db');
 const logger = require('../logger/logger.js');;
 
 const { Analytics } = require('@segment/analytics-node');
+const client = new Analytics('Q6Z0yZ9V2kIaYisKsp8sFM7hVYG3hXeW');
 
 // Gets a random line from the database
 router.get('/random', async (req, res) => {
     logger.info('Get a random line');
-    const analytics = new Analytics({ writeKey: 'Q6Z0yZ9V2kIaYisKsp8sFM7hVYG3hXeW' });
-    analytics.page();
+    client.track({
+        event: 'Random Quote',
+        userId: 'anonymous',
+    })
     try {
         const quote = await pool.query(
             "SELECT season, episode, character, line FROM lines OFFSET floor(random() * (SELECT COUNT(*) FROM lines))"
