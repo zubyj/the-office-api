@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@firebase/analytics": "^0.10.0",
     "axios": "^1.4.0",
     "compression": "^1.7.4",
     "cookie-session": "^2.0.0",

@@ -11,29 +11,9 @@ const rateLimit = require("express-rate-limit");
 const logger = require('./logger/logger.js');
 const axios = require('axios');
 
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+const firebase = require('./firebase');
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-    apiKey: "AIzaSyD3_MQ5gFasoAZGM3fRsRjvOC--xmZ4f2E",
-    apiKey: process.env.FIREBASE_API_KEY,
-    authDomain: "the-office-script-api.firebaseapp.com",
-    projectId: "the-office-script-api",
-    storageBucket: "the-office-script-api.appspot.com",
-    messagingSenderId: "173776058994",
-    appId: process.env.FIREBASE_APP_ID,
-    appId: "1:173776058994:web:bc1fa5f2e8a4b00975e0eb",
-    measurementId: "G-20BJSRT974"
-};
 
-// Initialize Firebase
-const firebase_app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(firebase_app);
 
 const PORT = process.env.PORT;
 
@@ -50,10 +30,7 @@ const limiter = rateLimit({
 })
 app.use(limiter)
 
-// Set up google analytics
-const GA_TRACKING_ID = process.env.GA_TRACKING_ID;
-
-const sendEvent = async (eventName, appInstanceId, clientId) => {
+const sendEvent = async (eventName, clientId) => {
     const eventData = {
         client_id: clientId,
         events: [
@@ -99,8 +76,9 @@ app.get('/', function (req, res) {
     logger.info('Open homepage');
     res.sendFile(path.join(__dirname, '../client/dist/index.html'));
 
-    // Send event to google analytics
-    sendEvent('open_homepage');
+    const appInstanceId = 'app_instance_id'; // Replace with the actual app instance ID
+    const clientId = req.session.clientId || 'CLIENT_ID'; // Replace with the actual client ID logic
+    sendEvent('open_homepage', clientId);
 });
 
 // Gets a random line
