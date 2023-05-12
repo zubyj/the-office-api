@@ -6,7 +6,6 @@ const compression = require('compression');
 const axios = require('axios');
 const analytics = require('./analytics.js');
 
-// middlewares
 const cors = require("cors");
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
