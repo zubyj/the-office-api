@@ -1,13 +1,4 @@
-import Analytics from 'analytics'
-import segmentPlugin from '@analytics/segment'
+const { Analytics } = require('@segment/analytics-node');
+const client = new Analytics({ writeKey: 'Q6Z0yZ9V2kIaYisKsp8sFM7hVYG3hXeW' });
 
-const analytics = Analytics({
-    app: 'the-office-script-api-server',
-    plugins: [
-        segmentPlugin({
-            writeKey: 'Q6Z0yZ9V2kIaYisKsp8sFM7hVYG3hXeW',
-        })
-    ]
-})
-
-export default analytics;
+export default client;

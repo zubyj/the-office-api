@@ -4,9 +4,7 @@ const app = express();
 const pool = require('./db');
 const compression = require('compression');
 const axios = require('axios');
-
-// const { Analytics } = require('@segment/analytics-node');
-// const analytics = new Analytics({ writeKey: 'Q6Z0yZ9V2kIaYisKsp8sFM7hVYG3hXeW' });
+const analytics = require('./analytics.js');
 
 // middlewares
 const cors = require("cors");
