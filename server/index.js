@@ -16,17 +16,29 @@ const logger = require('./logger/logger.js');
 const PORT = process.env.PORT;
 
 // Set up middlewares
-app.use(compression())
+app.use(compression());
 app.use(cors());
-app.use(express.json())
+app.use(express.json());
 app.use(express.static('../client/dist'));
 const limiter = rateLimit({
     windowsMs: 15 * 60 * 1000, // 15 minutes
     max: 100, // limit each IP to 100 requests per window (15 mins here)
     standardHeaders: true, // Returns rate limit info in RateLimit headers
     legacyHeaders: false, // Disable X-RateLimit headers
-})
-app.use(limiter)
+});
+app.use(limiter);
+
+/*
+Set up cookie session
+Avoids using default session cookie name
+Under set cookie security options, set httponly to true, and domain
+*/
+const session = require('cookie-session');
+app.set('trust proxy', 1);
+app.use(session({
+    secret: process.env.COOKIE_SECRET,
+    name: 'sessionId'
+}));
 
 // Initialize analytics with the Segment plugin
 const analytics = Analytics({
@@ -38,23 +50,9 @@ const analytics = Analytics({
     ],
 });
 
-/*
-Set up cookie session
-Avoids using default sesson cookie name
-Under set cookie security options, set httponly to true, and domain
-*/
-const session = require('cookie-session');
-app.set('trust proxy', 1);
-app.use(session({
-    secret: process.env.COOKIE_SECRET,
-    name: 'sessionId'
-}))
-
 // Gets the website with API documentation
 app.get('/', function (req, res) {
     logger.info('Open homepage');
-    res.sendFile(path.join(__dirname, '../client/dist/index.html'));
-
     // Send event to analytics
     const { anonymousId } = req.session;
     const userId = req.session.userId || process.env.SEGMENT_WRITE_KEY; // Replace with your logic for getting the user ID
@@ -64,6 +62,8 @@ app.get('/', function (req, res) {
     };
     analytics.identify(userId, traits, { anonymousId });
     analytics.page();
+
+    res.sendFile(path.join(__dirname, '../client/dist/index.html'));
 });
 
 // Gets a random line
