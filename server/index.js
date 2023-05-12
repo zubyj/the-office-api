@@ -46,9 +46,6 @@ const sendEvent = async (eventName) => {
     });
 };
 
-// usage
-sendEvent('event_name').catch(console.error);
-
 /*
 Set up cookie session
 Avoids using default sesson cookie name
@@ -65,6 +62,9 @@ app.use(session({
 app.get('/', function (req, res) {
     logger.info('Open homepage');
     res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+
+    // Send event to google analytics
+    sendEvent('open_homepage');
 });
 
 // Gets a random line
