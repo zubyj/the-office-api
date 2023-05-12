@@ -10,7 +10,7 @@ const client = new Analytics({ writeKey: 'Q6Z0yZ9V2kIaYisKsp8sFM7hVYG3hXeW' });
 router.get('/random', async (req, res) => {
     logger.info('Get a random line');
     client.track({
-        event: 'random_line',
+        event: 'Random Quote',
         userId: 'anonymous',
     })
     try {
