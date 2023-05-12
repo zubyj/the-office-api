@@ -37,11 +37,17 @@ app.use(session({
 }));
 
 app.get('/', function (req, res) {
-    analytics.page({
-        userId: 'anonymous',
-        name: 'Homepage',
-    });
-    res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+    try {
+
+        analytics.page({
+            userId: 'anonymous',
+            name: 'Homepage',
+        });
+        res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+    }
+    catch (err) {
+        console.error(err);
+    }
 });
 
 // Gets a random line
