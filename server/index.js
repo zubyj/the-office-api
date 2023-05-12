@@ -55,10 +55,9 @@ const analytics = Analytics({
     ],
 });
 
-
 app.get('/', function (req, res) {
     logger.info('Open homepage');
-
+    console.log('open homepage');
     // Track event with Segment
     analytics.track('Visited Homepage', {
         user: req.session.id, // or however you identify your user
