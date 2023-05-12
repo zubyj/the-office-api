@@ -1,19 +1,17 @@
 const express = require('express');
 const path = require('path');
-const app = express()
+const app = express();
 const pool = require('./db');
 const compression = require('compression');
+const axios = require('axios');
+const { Analytics } = require('analytics');
+const segmentPlugin = require('@analytics/segment');
 
 // middlewares
 const cors = require("cors");
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
 const logger = require('./logger/logger.js');
-const axios = require('axios');
-
-const firebase = require('./firebase');
-
-
 
 const PORT = process.env.PORT;
 
@@ -30,34 +28,15 @@ const limiter = rateLimit({
 })
 app.use(limiter)
 
-const sendEvent = async (eventName, clientId) => {
-    const eventData = {
-        client_id: clientId,
-        events: [
-            {
-                name: eventName,
-                params: {
-                    engagement_time_msec: '100', // Replace with actual engagement time
-                    session_id: '123', // Replace with actual session ID
-                },
-            },
-        ],
-    };
-
-    const queryParams = {
-        api_secret: process.env.API_SECRET, // Your API SECRET
-        firebase_app_id: process.env.FIREBASE_APP_ID, // Your Firebase App ID
-    };
-
-    try {
-        await axios.post('https://www.google-analytics.com/mp/collect', eventData, {
-            params: queryParams,
-        });
-        console.log('Event sent to Google Analytics');
-    } catch (error) {
-        console.error('Error sending event to Google Analytics:', error);
-    }
-};
+// Initialize analytics with the Segment plugin
+const analytics = Analytics({
+    app: 'the-office-script-api',
+    plugins: [
+        segmentPlugin({
+            writeKey: process.env.SEGMENT_WRITE_KEY, // Replace with your Segment write key
+        }),
+    ],
+});
 
 /*
 Set up cookie session
@@ -76,9 +55,15 @@ app.get('/', function (req, res) {
     logger.info('Open homepage');
     res.sendFile(path.join(__dirname, '../client/dist/index.html'));
 
-    const appInstanceId = 'app_instance_id'; // Replace with the actual app instance ID
-    const clientId = req.session.clientId || 'CLIENT_ID'; // Replace with the actual client ID logic
-    sendEvent('open_homepage', clientId);
+    // Send event to analytics
+    const { anonymousId } = req.session;
+    const userId = req.session.userId || process.env.SEGMENT_WRITE_KEY; // Replace with your logic for getting the user ID
+    const traits = {
+        firstName: 'bill',
+        lastName: 'murray',
+    };
+    analytics.identify(userId, traits, { anonymousId });
+    analytics.page();
 });
 
 // Gets a random line
