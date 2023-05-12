@@ -46,9 +46,15 @@ const analytics = Analytics({
     plugins: [
         segmentPlugin({
             writeKey: process.env.SEGMENT_WRITE_KEY, // Replace with your Segment write key
+            destinations: {
+                'ga4': { // Google Analytics 4 destination
+                    measurementId: process.env.GA_MEASUREMENT_ID // Replace with your GA4 Measurement ID
+                }
+            }
         }),
     ],
 });
+
 
 // Gets the website with API documentation
 app.get('/', function (req, res) {
