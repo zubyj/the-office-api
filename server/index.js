@@ -5,17 +5,7 @@ const pool = require('./db');
 const compression = require('compression');
 const axios = require('axios');
 
-const Analytics = require('analytics').default;
-const segmentPlugin = require('@analytics/segment').default;
-
-const analytics = Analytics({
-    app: 'my-app-name',
-    plugins: [
-        segmentPlugin({
-            writeKey: process.env.SEGMENT_WRITE_KEY
-        })
-    ]
-});
+const analytics = require('analytics');
 
 // middlewares
 const cors = require("cors");
@@ -52,7 +42,7 @@ app.use(session({
 
 app.get('/', function (req, res) {
     logger.info('Open homepage');
-    analyticsObject.page();
+    analytics.page();
     res.sendFile(path.join(__dirname, '../client/dist/index.html'));
 });
 
