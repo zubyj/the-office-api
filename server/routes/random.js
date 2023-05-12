@@ -3,7 +3,7 @@ const router = express.Router();
 const pool = require('../db');
 const logger = require('../logger/logger.js');;
 
-const Analytics = require('@segment/analytics-node');
+const { Analytics } = require('@segment/analytics-node');
 const client = new Analytics({ writeKey: 'Q6Z0yZ9V2kIaYisKsp8sFM7hVYG3hXeW' });
 
 // Gets a random line from the database
