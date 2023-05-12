@@ -4,8 +4,9 @@ const app = express();
 const pool = require('./db');
 const compression = require('compression');
 const axios = require('axios');
-const { Analytics } = require('analytics');
-const segmentPlugin = require('@analytics/segment');
+
+const Analytics = require('analytics-node');
+const analytics = new Analytics(process.env.SEGMENT_WRITE_KEY);
 
 // middlewares
 const cors = require("cors");
@@ -40,38 +41,16 @@ app.use(session({
     name: 'sessionId'
 }));
 
-// Initialize analytics with the Segment plugin
-const analytics = Analytics({
-    app: 'the-office-script-api-server',
-    plugins: [
-        segmentPlugin({
-            writeKey: process.env.SEGMENT_WRITE_KEY, // Replace with your Segment write key
-            destinations: {
-                'ga4': { // Google Analytics 4 destination
-                    measurementId: process.env.GA_MEASUREMENT_ID // Replace with your GA4 Measurement ID
-                }
-            }
-        }),
-    ],
-});
-
 app.get('/', function (req, res) {
     logger.info('Open homepage');
-    console.log('open homepage');
-    // Track event with Segment
-
-    try {
-        analytics.page('Page View', {
-            'Data Stream Type': 'web',
-            'Client ID': req.session.id,
-            'Page Location': req.protocol + '://' + req.get('host') + req.originalUrl,
-            'Page Referrer': req.get('Referrer') || '',
-            'Page Title': 'The Office Script API',
-        });
-        res.sendFile(path.join(__dirname, '../client/dist/index.html'));
-    } catch (error) {
-        console.log(error);
-    }
+    analytics.track({
+        userId: 'anonymous', // or provide a specific user id
+        event: 'Homepage requested',
+        properties: {
+            endpoint: '/homepage'
+        }
+    });
+    res.sendFile(path.join(__dirname, '../client/dist/index.html'));
 });
 
 // Gets a random line

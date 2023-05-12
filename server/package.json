@@ -15,6 +15,7 @@
     "@analytics/segment": "^1.1.4",
     "@firebase/analytics": "^0.10.0",
     "analytics": "^0.8.1",
+    "analytics-node": "^6.2.0",
     "axios": "^1.4.0",
     "compression": "^1.7.4",
     "cookie-session": "^2.0.0",
