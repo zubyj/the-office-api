@@ -5,7 +5,7 @@ const analytics = Analytics({
     app: 'the-office-script-api-server',
     plugins: [
         segmentPlugin({
-            writeKey: process.env.SEGMENT_WRITE_KEY
+            writeKey: 'Q6Z0yZ9V2kIaYisKsp8sFM7hVYG3hXeW',
         })
     ]
 })

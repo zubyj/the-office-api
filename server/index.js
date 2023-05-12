@@ -6,7 +6,7 @@ const compression = require('compression');
 const axios = require('axios');
 
 const { Analytics } = require('@segment/analytics-node');
-const analytics = new Analytics({ writeKey: process.env.SEGMENT_WRITE_KEY });
+const analytics = new Analytics({ writeKey: 'Q6Z0yZ9V2kIaYisKsp8sFM7hVYG3hXeW' });
 
 // middlewares
 const cors = require("cors");
@@ -48,7 +48,7 @@ app.get('/', function (req, res) {
 });
 
 // Gets a random line
-const randomRoutes = require('./routes/random')(analytics);
+const randomRoutes = require('./routes/random')
 app.use(randomRoutes);
 
 // Gets a line from character given user text
