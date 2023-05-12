@@ -1,15 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const pool = require('../db');
-const logger = require('../logger/logger.js');;
-
-const { Analytics } = require('@segment/analytics-node');
-const client = new Analytics({ writeKey: 'Q6Z0yZ9V2kIaYisKsp8sFM7hVYG3hXeW' });
+const logger = require('../logger/logger.js');
+const analytics = require('../analytics.js');
 
 // Gets a random line from the database
 router.get('/random', async (req, res) => {
     logger.info('Get a random line');
-    client.track({
+    analytics.track({
         event: 'Random Quote',
         userId: 'anonymous',
     })
