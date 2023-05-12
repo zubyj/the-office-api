@@ -5,7 +5,7 @@ const pool = require('./db');
 const compression = require('compression');
 const axios = require('axios');
 
-const Analytics = require('analytics-node');
+const Analytics = require('@segment/analytics-node');
 const analytics = new Analytics(process.env.SEGMENT_WRITE_KEY);
 
 // middlewares

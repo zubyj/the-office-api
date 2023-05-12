@@ -107,6 +107,7 @@ router.get("/seasons/:season/episodes/:episode/characters/:character/random", as
 
 // Gets a random line from random episode in given season
 router.get("/seasons/:season/random", async (req, res) => {
+    console.log('get script from random season and episode');
     logger.info('Get script from random season and episode');
     try {
         const { season } = req.params;
