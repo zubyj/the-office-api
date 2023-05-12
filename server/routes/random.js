@@ -7,7 +7,7 @@ const analytics = require('../analytics.js');
 router.get('/random', async (req, res) => {
     analytics.track({
         event: 'Get random line',
-        userId: req.session.id
+        userId: 'anonymous',
     })
     try {
         const quote = await pool.query(
@@ -106,7 +106,7 @@ router.get("/seasons/:season/characters/:character/random", async (req, res) => 
 router.get("/seasons/:season/episodes/:episode/characters/:character/random", async (req, res) => {
     analytics.track({
         event: 'Random quote from given character and character',
-        userId: req.session.id,
+        userId: 'anonymous',
     })
     try {
         const { season, episode, character } = req.params;
