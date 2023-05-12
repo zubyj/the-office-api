@@ -41,7 +41,6 @@ app.use(session({
 app.get('/', function (req, res) {
     logger.info('Open homepage');
     analytics.page({
-        userId: 'anonymous',
         category: 'Homepage',
         name: 'Homepage',
     });

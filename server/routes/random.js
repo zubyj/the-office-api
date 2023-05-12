@@ -7,7 +7,6 @@ const analytics = require('../analytics.js');
 router.get('/random', async (req, res) => {
     analytics.track({
         event: 'Get random line',
-        userId: req.session.id,
     })
     try {
         const quote = await pool.query(
@@ -24,7 +23,6 @@ router.get('/random', async (req, res) => {
 router.get("/seasons/:season/episodes/:episode/random", async (req, res) => {
     analytics.track({
         event: 'Get random line from given season and episode',
-        userId: req.session.id,
     })
     try {
         const { season, episode } = req.params;
@@ -45,7 +43,6 @@ router.get("/seasons/:season/episodes/:episode/random", async (req, res) => {
 router.get("/characters/:character/random", async (req, res) => {
     analytics.track({
         event: 'Get random line from given character',
-        userId: req.session.id,
     })
     try {
         const { character } = req.params;
@@ -65,7 +62,6 @@ router.get("/characters/:character/random", async (req, res) => {
 router.get("/seasons/:season/random", async (req, res) => {
     analytics.track({
         event: 'Get random line from given season',
-        userId: req.session.id,
     })
     try {
         const { season } = req.params;
@@ -85,7 +81,6 @@ router.get("/seasons/:season/random", async (req, res) => {
 router.get("/seasons/:season/characters/:character/random", async (req, res) => {
     analytics.track({
         event: 'Random quote from given character and character',
-        userId: req.session.id,
     })
     try {
         const { season, character } = req.params;
@@ -106,7 +101,6 @@ router.get("/seasons/:season/characters/:character/random", async (req, res) => 
 router.get("/seasons/:season/episodes/:episode/characters/:character/random", async (req, res) => {
     analytics.track({
         event: 'Random quote from given character and character',
-        userId: req.session.id,
     })
     try {
         const { season, episode, character } = req.params;
@@ -128,7 +122,6 @@ router.get("/seasons/:season/episodes/:episode/characters/:character/random", as
 router.get("/seasons/:season/random", async (req, res) => {
     analytics.track({
         event: 'Random quote from given character and character',
-        userId: req.session.id,
     })
     try {
         const { season } = req.params;
