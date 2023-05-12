@@ -56,18 +56,14 @@ const analytics = Analytics({
 });
 
 
-// Gets the website with API documentation
 app.get('/', function (req, res) {
     logger.info('Open homepage');
-    // Send event to analytics
-    const { anonymousId } = req.session;
-    const userId = req.session.userId || process.env.SEGMENT_WRITE_KEY; // Replace with your logic for getting the user ID
-    const traits = {
-        firstName: 'bill',
-        lastName: 'murray',
-    };
-    analytics.identify(userId, traits, { anonymousId });
-    analytics.page();
+
+    // Track event with Segment
+    analytics.track('Visited Homepage', {
+        user: req.session.id, // or however you identify your user
+        page: 'homepage'
+    });
 
     res.sendFile(path.join(__dirname, '../client/dist/index.html'));
 });
