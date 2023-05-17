@@ -82,6 +82,7 @@ export default {
                 <option value="random" selected>Get a random line</option>
                 <option value="characters/dwight/ask/do-bears-eat-beets">Ask Dwight if bears eat beets</option>
                 <option value="characters/michael/random">Get a random line from Michael Scott</option>
+                <option value="seasons/1/characters/dwight/random">Get a random line from Dwight in season 1</option>
                 <option value="seasons/2/episodes/5/characters/jim/random">Get a random line from Jim in season 2 episode 5
                 </option>
             </select>
