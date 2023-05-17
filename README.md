@@ -6,6 +6,20 @@
 
 ### REST API for getting lines and chatting with characters from NBC's, "The Office"
 
+## Table of Contents
+- [Overview](#overview)
+- [Endpoints](#endpoints)
+- [Frontend](#frontend)
+    - [Setting up the Frontend](#setting-up-the-frontend)
+    - [Building the Frontend for Production](#building-the-frontend-for-production)
+    - [Main Components](#main-components)
+- [Backend](#backend)
+    - [Setting up the Backend](#setting-up-the-backend)
+<!-- - [API Documentation](#api-documentation)
+- [Contributing](#contributing)
+- [Testing](#testing) -->
+<!-- - [License](#license) -->
+
 <hr />
 
 ## Overview
@@ -15,11 +29,9 @@ This free to use REST API allows users to interact with the script of NBC's "The
 ### Projects made with this API
 * [The Office Reddit bots](reddit.com/u/the-office-bot)
 
-### Frontend
-* VueJS
+Frontend - VueJS
 
-### Backend
-* ExpressJS, PostgreSQL, Heroku, AWS RDS, Segment, Google Analytics
+Backend - ExpressJS, PostgreSQL, Heroku, AWS RDS, Segment, Google Analytics
 
 <hr />
 

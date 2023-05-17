@@ -15,7 +15,6 @@ import RequestForm from './components/RequestForm.vue';
         <div class="buttons">
           <a href="https://github.com/zubyj/the-office-api" target="_blank" class="button">View the code</a>
           <a href="https://reddit.com/u/the-office-bot" target="_blank" class="button">The Office Reddit bots</a>
-          <a href="https://reddit.com/u/the-office-bot" target="_blank" class="button">The Office Chat bots</a>
         </div>
       </div>
       <RequestForm />
