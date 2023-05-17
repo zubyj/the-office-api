@@ -1,13 +1,27 @@
 # The Office Script REST API
 
 ![The Office API Logo](./client/src/assets/the-office-api-logo.jpg)
-Try it out at [theofficescript.com](https://theofficescript.com)
+## [theofficescript.com](https://theofficescript.com)
+
 
 ### REST API for getting lines and chatting with characters from NBC's, "The Office"
+
+<hr />
 
 ## Overview
 
 This free to use REST API allows users to interact with the script of NBC's "The Office" by providing access to lines, episodes, and characters. You can search for specific lines, chat with characters, and retrieve random quotes from the series.
+
+### Projects made with this API
+* [The Office Reddit bots](reddit.com/u/the-office-bot)
+
+### Frontend
+* VueJS
+
+### Backend
+* ExpressJS, PostgreSQL, Heroku, AWS RDS, Segment, Google Analytics
+
+<hr />
 
 ## Endpoints
 
