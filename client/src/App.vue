@@ -13,7 +13,7 @@ import RequestForm from './components/RequestForm.vue';
         <img src="./assets/the-office-api-logo.jpg" width="400" id="title_img" />
         <h2 id="description">REST API for getting lines from NBC's " The Office"</h2>
         <div class="buttons">
-          <a href="https://zubyj.com/the-office-chat-bots" target="_blank" class="button">Chat bots</a>
+          <a href="https://zubyj.com/the-office-chat-bot" target="_blank" class="button">Chat bots</a>
           <a href="https://reddit.com/u/the-office-bot" target="_blank" class="button">Reddit bots</a>
           <a href="https://github.com/zubyj/the-office-api" target="_blank" class="button">View the code</a>
         </div>
